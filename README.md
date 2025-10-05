@@ -1,5 +1,8 @@
 # SERAKDEP GAMING 🎮
 
+#Link de la pagina:
+https://serakdepms.github.io/smsjuegos/
+
 ## Descripción del Proyecto
 
 **SerakDep Gaming** es una plataforma web especializada en proporcionar acceso seguro a videojuegos mediante un proceso avanzado de extracción y verificación. Nuestro objetivo principal es ofrecer una experiencia gaming confiable, eliminando los riesgos asociados con el malware y virus comúnmente encontrados en juegos de fuentes no oficiales.
@@ -48,27 +51,6 @@ Proporcionar a la comunidad gamer acceso seguro a títulos premium mediante tecn
 - **Local Storage**: Persistencia de datos del usuario
 - **API Web**: Funcionalidades modernas del navegador
 
-## 📁 Estructura del Proyecto
-
-```
-serakdep-gaming/
-├── index.html                  # Página principal
-├── css/
-│   └── futuristic.css          # Estilos principales
-├── js/
-│   ├── script.js              # Funcionalidades globales
-│   └── noticias.js            # Sistema de noticias
-├── assets/
-│   ├── images/                # Recursos visuales
-│   └── videos/                # Contenido multimedia
-└── secciones/
-    ├── inicio/                # Landing page
-    ├── juegos/               # Catálogo de juegos
-    ├── galeria/              # Multimedia
-    ├── noticias/             # Blog y actualizaciones
-    ├── contacto/             # Soporte y contacto
-    └── faq/                  # Preguntas frecuentes
-```
 
 ## 🎨 Diseño y Experiencia
 
