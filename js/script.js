@@ -473,7 +473,7 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   document.addEventListener("keydown", handleKeydown);
 }
 
-// FUNCIÓN PRINCIPAL DE DESCARGA REAL - COMPLETAMENTE SEGURIZADA (LÍNEA 539 CORREGIDA)
+// FUNCIÓN PRINCIPAL DE DESCARGA REAL - COMPLETAMENTE SEGURIZADA
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
   if (!downloadBtn || downloadBtn.classList.contains("downloading")) {
@@ -488,20 +488,22 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     .trim()
     .substring(0, 50) || 'juego';
 
-  // VALIDACIÓN SEGURA PARA LA URL - CORRECCIÓN LÍNEA 539
+  // VALIDACIÓN SEGURA PARA LA URL - CORRECCIÓN DEFINITIVA
   let safeArchivo = "#";
   if (archivo && typeof archivo === 'string') {
-    // Solo permitir URLs seguras
-    const allowedProtocols = ['http:', 'https:', 'data:', 'blob:'];
+    // Solo permitir URLs seguras: rutas relativas o absolutas, y http/https
     const isRelative = /^[\.\/]/.test(archivo);
     const isAbsolute = /^\//.test(archivo);
     
     try {
       if (isRelative || isAbsolute) {
-        safeArchivo = archivo;
+        // Validar que la ruta relativa no contenga caracteres peligrosos
+        if (!/[<>"']/.test(archivo)) {
+          safeArchivo = archivo;
+        }
       } else if (archivo.startsWith('http://') || archivo.startsWith('https://')) {
         const url = new URL(archivo);
-        if (allowedProtocols.includes(url.protocol)) {
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
           safeArchivo = archivo;
         }
       } else if (archivo === '#') {
@@ -570,22 +572,39 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
         try {
           const downloadLink = document.createElement("a");
           
-          // LÍNEA 539 CORREGIDA - USO DE URL VALIDADA Y SEGURA
-          downloadLink.href = safeArchivo;
-          
-          downloadLink.download = `${safeNombreJuego}.zip`;
-          downloadLink.style.display = "none";
-          downloadLink.setAttribute("rel", "noopener noreferrer");
-          
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
+          // SOLUCIÓN DEFINITIVA PARA LÍNEA 574 - MÚLTIPLES CAPAS DE SEGURIDAD
+          if (safeArchivo && safeArchivo !== "#") {
+            // Capa 1: Usar setAttribute con encodeURI
+            downloadLink.setAttribute('href', encodeURI(safeArchivo));
+            
+            // Capa 2: Validar que el enlace sea seguro antes de usarlo
+            const tempLink = document.createElement('a');
+            tempLink.href = safeArchivo;
+            
+            if (tempLink.protocol === 'http:' || 
+                tempLink.protocol === 'https:' || 
+                tempLink.protocol === ':' || // Rutas relativas
+                !tempLink.protocol) {
+              
+              downloadLink.download = `${safeNombreJuego}.zip`;
+              downloadLink.style.display = "none";
+              downloadLink.setAttribute("rel", "noopener noreferrer");
+              
+              document.body.appendChild(downloadLink);
+              downloadLink.click();
+              document.body.removeChild(downloadLink);
 
-          downloadBtn.textContent = "¡Descargado!";
-          progressText.textContent = "¡Completado!";
-          downloadBtn.classList.remove("downloading");
+              downloadBtn.textContent = "¡Descargado!";
+              progressText.textContent = "¡Completado!";
+              downloadBtn.classList.remove("downloading");
 
-          showNotification(`${safeGameName} se ha descargado correctamente`, "success");
+              showNotification(`${safeGameName} se ha descargado correctamente`, "success");
+            } else {
+              throw new Error('Protocolo no permitido');
+            }
+          } else {
+            throw new Error('URL no válida');
+          }
 
           setTimeout(() => {
             downloadBtn.textContent = originalText;
@@ -1456,6 +1475,7 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
 
 
