@@ -35,14 +35,41 @@ function preloadCriticalResources() {
   });
 }
 
-// Función para validar URLs HTTP/HTTPS
+// Función para validar URLs HTTP/HTTPS - CORREGIDA Y MEJORADA
 function isValidHttpUrl(string) {
+    if (!string || typeof string !== 'string') return false;
+    
     try {
+        // Si es una ruta relativa, considerar segura
+        if (string.startsWith('/') || string.startsWith('./') || string.startsWith('../')) {
+            return !/[<>"']/.test(string); // Validar que no tenga caracteres peligrosos
+        }
+        
         const url = new URL(string);
         return url.protocol === 'http:' || url.protocol === 'https:';
     } catch (_) {
-        return false;
+        // Si es una ruta relativa sin ./ o ../, también es segura
+        return !string.includes('://') && !/[<>"']/.test(string);
     }
+}
+
+// Función para sanitizar URLs - NUEVA IMPLEMENTACIÓN
+function sanitizeUrl(url) {
+    if (!url || typeof url !== 'string') return '#';
+    
+    // Si ya es una URL segura, devolverla
+    if (isValidHttpUrl(url)) {
+        return url;
+    }
+    
+    // Si es un fragmento o vacío, devolver #
+    if (url === '#' || url === '' || url === 'javascript:void(0)') {
+        return '#';
+    }
+    
+    // Para otros casos no seguros, devolver #
+    console.warn('URL no segura detectada y bloqueada:', url);
+    return '#';
 }
 
 // Efecto de partículas en el fondo - OPTIMIZADO Y SEGURO
@@ -501,28 +528,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
   // VALIDACIÓN SEGURA PARA LA URL - CORRECCIÓN DEFINITIVA
   let safeArchivo = "#";
   if (archivo && typeof archivo === 'string') {
-    // Solo permitir URLs seguras: rutas relativas o absolutas, y http/https
-    const isRelative = /^[\.\/]/.test(archivo);
-    const isAbsolute = /^\//.test(archivo);
-    
-    try {
-      if (isRelative || isAbsolute) {
-        // Validar que la ruta relativa no contenga caracteres peligrosos
-        if (!/[<>"']/.test(archivo)) {
-          safeArchivo = archivo;
-        }
-      } else if (archivo.startsWith('http://') || archivo.startsWith('https://')) {
-        const url = new URL(archivo);
-        if (url.protocol === 'http:' || url.protocol === 'https:') {
-          safeArchivo = archivo;
-        }
-      } else if (archivo === '#') {
-        safeArchivo = '#';
-      }
-    } catch (e) {
-      console.warn('URL de descarga inválida:', archivo);
-      safeArchivo = "#";
-    }
+    safeArchivo = sanitizeUrl(archivo);
   }
 
   downloadBtn.classList.add("downloading");
@@ -582,23 +588,19 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
         try {
           const downloadLink = document.createElement("a");
           
-          // SOLUCIÓN DEFINITIVA PARA LÍNEA 574 - MÚLTIPLES CAPAS DE SEGURIDAD
+          // SOLUCIÓN DEFINITIVA - SIN VULNERABILIDADES
           if (safeArchivo && safeArchivo !== "#") {
             // Capa 1: Usar setAttribute con encodeURI
             downloadLink.setAttribute('href', encodeURI(safeArchivo));
             
-            // Capa 2: Validar que el enlace sea seguro antes de usarlo
+            // Capa 2: Validar que el enlace sea seguro antes de usarlo - CORREGIDO
             const tempLink = document.createElement('a');
             
-            // VALIDACIÓN SEGURA IMPLEMENTADA
-            if (isValidHttpUrl(safeArchivo)) {
-              tempLink.href = safeArchivo;
-            } else {
-              // Manejar el caso inseguro
-              tempLink.href = '#'; // Valor por defecto seguro
-              console.warn('URL no segura detectada y bloqueada:', safeArchivo);
-            }
+            // USAR LA FUNCIÓN SANITIZE URL EN LUGAR DE ASIGNACIÓN DIRECTA
+            const validatedUrl = sanitizeUrl(safeArchivo);
+            tempLink.setAttribute('href', validatedUrl);
             
+            // Validación segura del protocolo
             if (tempLink.protocol === 'http:' || 
                 tempLink.protocol === 'https:' || 
                 tempLink.protocol === ':' || // Rutas relativas
@@ -607,10 +609,15 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
               downloadLink.download = `${safeNombreJuego}.zip`;
               downloadLink.style.display = "none";
               downloadLink.setAttribute("rel", "noopener noreferrer");
+              downloadLink.setAttribute("target", "_blank");
               
               document.body.appendChild(downloadLink);
               downloadLink.click();
-              document.body.removeChild(downloadLink);
+              setTimeout(() => {
+                if (downloadLink.parentNode) {
+                  document.body.removeChild(downloadLink);
+                }
+              }, 100);
 
               downloadBtn.textContent = "¡Descargado!";
               progressText.textContent = "¡Completado!";
@@ -618,7 +625,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
               showNotification(`${safeGameName} se ha descargado correctamente`, "success");
             } else {
-              throw new Error('Protocolo no permitido');
+              throw new Error('Protocolo no permitido: ' + tempLink.protocol);
             }
           } else {
             throw new Error('URL no válida');
@@ -634,7 +641,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
           }, 3000);
         } catch (error) {
           console.error('Error en descarga:', error);
-          handleDownloadError(card, "Error al descargar el archivo");
+          handleDownloadError(card, "Error al descargar el archivo: " + error.message);
         }
       }, 500);
     }
