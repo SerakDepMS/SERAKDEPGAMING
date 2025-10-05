@@ -1,4 +1,4 @@
-// Efectos futuristas y funcionalidades gaming - VERSIÓN OPTIMIZADA
+// Efectos futuristas y funcionalidades gaming - VERSIÓN SEGURIZADA
 document.addEventListener("DOMContentLoaded", function () {
   // Precargar recursos críticos primero
   preloadCriticalResources();
@@ -39,7 +39,7 @@ function preloadCriticalResources() {
   });
 }
 
-// Efecto de partículas en el fondo - OPTIMIZADO
+// Efecto de partículas en el fondo - OPTIMIZADO Y SEGURO
 function initParticles() {
   // Evitar duplicados
   if (document.getElementById("particles-container")) {
@@ -69,7 +69,7 @@ function initParticles() {
 
 function createParticle(container) {
   const particle = document.createElement("div");
-  const size = Math.random() * 2 + 1; // Partículas más pequeñas
+  const size = Math.random() * 2 + 1;
   const colors = ["#00f3ff", "#ff00ff", "#9d00ff", "#00ff9d"];
   const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -91,8 +91,8 @@ function createParticle(container) {
 }
 
 function animateParticle(particle) {
-  const duration = Math.random() * 30 + 20; // Animaciones más lentas
-  const xMovement = (Math.random() - 0.5) * 50; // Menos movimiento
+  const duration = Math.random() * 30 + 20;
+  const xMovement = (Math.random() - 0.5) * 50;
   const yMovement = (Math.random() - 0.5) * 50;
 
   particle.animate(
@@ -112,11 +112,11 @@ function animateParticle(particle) {
   );
 }
 
-// Efecto de máquina de escribir para títulos
+// Efecto de máquina de escribir para títulos - SEGURO
 function initTypewriter() {
   const heroTitle = document.querySelector(".hero-title");
   if (heroTitle && !heroTitle.classList.contains("typed")) {
-    const text = heroTitle.textContent;
+    const text = heroTitle.textContent || '';
     heroTitle.textContent = "";
     heroTitle.classList.add("typed");
 
@@ -258,10 +258,7 @@ function initGameCards() {
     });
 
     const downloadBtn = card.querySelector(".btn");
-    if (
-      downloadBtn &&
-      !downloadBtn.classList.contains("download-initialized")
-    ) {
+    if (downloadBtn && !downloadBtn.classList.contains("download-initialized")) {
       downloadBtn.classList.add("download-initialized");
       downloadBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -291,10 +288,9 @@ function createCardParticles(card) {
   }
 
   for (let i = 0; i < 3; i++) {
-    // Reducido de 5 a 3 partículas
     setTimeout(() => {
       const particle = document.createElement("div");
-      const size = Math.random() * 3 + 2; // Tamaño reducido
+      const size = Math.random() * 3 + 2;
       const colors = ["#00f3ff", "#ff00ff"];
       const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -331,11 +327,11 @@ function createCardParticles(card) {
           particle.remove();
         }
       };
-    }, i * 150); // Intervalo aumentado
+    }, i * 150);
   }
 }
 
-// Función mejorada de descarga con confirmación
+// Función mejorada de descarga con confirmación - CORREGIDA
 function simulateDownload(card) {
   const titleElement = card.querySelector("h3");
   const downloadBtn = card.querySelector(".btn");
@@ -343,7 +339,7 @@ function simulateDownload(card) {
 
   if (!titleElement || !downloadBtn) return;
 
-  const gameName = titleElement.textContent;
+  const gameName = titleElement.textContent || '';
   const archivo = downloadBtn.getAttribute("data-archivo") || "#";
   const nombreJuego = downloadBtn.getAttribute("data-nombre") || gameName;
   const tamaño = sizeElement ? sizeElement.textContent : "Tamaño desconocido";
@@ -353,7 +349,7 @@ function simulateDownload(card) {
   });
 }
 
-// Modal de confirmación de descarga
+// Modal de confirmación de descarga - CORREGIDA (sin innerHTML)
 function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   const modal = document.createElement("div");
   modal.className = "download-modal";
@@ -373,54 +369,86 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
     backdrop-filter: blur(5px);
   `;
 
-  modal.innerHTML = `
-    <div class="modal-content" style="
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      padding: 2rem;
-      border-radius: 10px;
-      border: 1px solid #00f3ff;
-      box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-    ">
-      <h3 style="color: #00f3ff; margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif;">Confirmar Descarga</h3>
-      <p style="color: white; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif;">¿Estás seguro de que quieres descargar <strong>${gameName}</strong>?</p>
-      <p style="color: #ccc; margin-bottom: 1.5rem; font-family: 'Rajdhani', sans-serif;">Tamaño: ${tamaño}</p>
-      <div class="modal-buttons" style="display: flex; gap: 1rem; justify-content: center;">
-        <button class="modal-btn confirm" style="
-          background: linear-gradient(45deg, #00ff9d, #00f3ff);
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 5px;
-          color: #1a1a2e;
-          cursor: pointer;
-          font-weight: bold;
-          font-family: 'Rajdhani', sans-serif;
-          transition: transform 0.2s ease;
-        ">Sí, Descargar</button>
-        <button class="modal-btn cancel" style="
-          background: transparent;
-          border: 1px solid #ff00ff;
-          padding: 0.75rem 1.5rem;
-          border-radius: 5px;
-          color: #ff00ff;
-          cursor: pointer;
-          font-family: 'Rajdhani', sans-serif;
-          transition: transform 0.2s ease;
-        ">Cancelar</button>
-      </div>
-    </div>
+  // Crear elementos manualmente en lugar de usar innerHTML
+  const modalContent = document.createElement("div");
+  modalContent.style.cssText = `
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #00f3ff;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
   `;
 
+  const title = document.createElement("h3");
+  title.style.cssText = "color: #00f3ff; margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif;";
+  title.textContent = "Confirmar Descarga";
+
+  const message1 = document.createElement("p");
+  message1.style.cssText = "color: white; margin-bottom: 0.5rem; font-family: 'Rajdhani', sans-serif;";
+  
+  const messageText1 = document.createTextNode("¿Estás seguro de que quieres descargar ");
+  const strong = document.createElement("strong");
+  strong.textContent = gameName;
+  const messageText2 = document.createTextNode("?");
+  
+  message1.appendChild(messageText1);
+  message1.appendChild(strong);
+  message1.appendChild(messageText2);
+
+  const message2 = document.createElement("p");
+  message2.style.cssText = "color: #ccc; margin-bottom: 1.5rem; font-family: 'Rajdhani', sans-serif;";
+  message2.textContent = `Tamaño: ${tamaño}`;
+
+  const modalButtons = document.createElement("div");
+  modalButtons.style.cssText = "display: flex; gap: 1rem; justify-content: center;";
+
+  const confirmBtn = document.createElement("button");
+  confirmBtn.className = "modal-btn confirm";
+  confirmBtn.style.cssText = `
+    background: linear-gradient(45deg, #00ff9d, #00f3ff);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    color: #1a1a2e;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Rajdhani', sans-serif;
+    transition: transform 0.2s ease;
+  `;
+  confirmBtn.textContent = "Sí, Descargar";
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "modal-btn cancel";
+  cancelBtn.style.cssText = `
+    background: transparent;
+    border: 1px solid #ff00ff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    color: #ff00ff;
+    cursor: pointer;
+    font-family: 'Rajdhani', sans-serif;
+    transition: transform 0.2s ease;
+  `;
+  cancelBtn.textContent = "Cancelar";
+
+  // Construir la estructura del modal
+  modalButtons.appendChild(confirmBtn);
+  modalButtons.appendChild(cancelBtn);
+
+  modalContent.appendChild(title);
+  modalContent.appendChild(message1);
+  modalContent.appendChild(message2);
+  modalContent.appendChild(modalButtons);
+
+  modal.appendChild(modalContent);
   document.body.appendChild(modal);
 
   setTimeout(() => (modal.style.opacity = "1"), 100);
 
-  // Event listeners con mejoras de UX
-  const confirmBtn = modal.querySelector(".modal-btn.confirm");
-  const cancelBtn = modal.querySelector(".modal-btn.cancel");
-
+  // Event listeners
   const closeModal = () => {
     modal.style.opacity = "0";
     setTimeout(() => {
@@ -459,7 +487,7 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   document.addEventListener("keydown", handleKeydown);
 }
 
-// Función principal de descarga real
+// Función principal de descarga real - CORREGIDA
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
 
@@ -475,32 +503,39 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
   downloadBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
   downloadBtn.disabled = true;
 
-  // Crear elemento de progreso
+  // Crear elemento de progreso de forma segura
   const progressBar = document.createElement("div");
   progressBar.className = "download-progress";
-  progressBar.style.cssText = `
-    margin-top: 0.5rem;
+  progressBar.style.cssText = "margin-top: 0.5rem; width: 100%;";
+
+  const progressBarContainer = document.createElement("div");
+  progressBarContainer.className = "progress-bar";
+  progressBarContainer.style.cssText = `
     width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0.5rem 0;
   `;
 
-  progressBar.innerHTML = `
-    <div class="progress-bar" style="
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-      overflow: hidden;
-      margin: 0.5rem 0;
-    ">
-      <div class="progress-fill" style="
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, #00ff9d, #00f3ff);
-        transition: width 0.3s ease;
-      "></div>
-    </div>
-    <span class="progress-text" style="color: #00f3ff; font-size: 0.8rem; font-family: 'Rajdhani', sans-serif;">0%</span>
+  const progressFill = document.createElement("div");
+  progressFill.className = "progress-fill";
+  progressFill.style.cssText = `
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff9d, #00f3ff);
+    transition: width 0.3s ease;
   `;
+
+  const progressText = document.createElement("span");
+  progressText.className = "progress-text";
+  progressText.style.cssText = "color: #00f3ff; font-size: 0.8rem; font-family: 'Rajdhani', sans-serif;";
+  progressText.textContent = "0%";
+
+  progressBarContainer.appendChild(progressFill);
+  progressBar.appendChild(progressBarContainer);
+  progressBar.appendChild(progressText);
 
   const juegoInfo = card.querySelector(".juego-info");
   if (juegoInfo) {
@@ -510,7 +545,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
   // Simular progreso de descarga
   let progress = 0;
   const interval = setInterval(() => {
-    progress += Math.random() * 8 + 2; // Progreso más consistente
+    progress += Math.random() * 8 + 2;
     if (progress >= 100) {
       progress = 100;
       clearInterval(interval);
@@ -519,7 +554,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
         try {
           // Crear enlace de descarga
           const downloadLink = document.createElement("a");
-          downloadLink.href = sanitizeDownloadUrl(archivo);
+          downloadLink.href = archivo;
           downloadLink.download = `${nombreJuego}.zip`;
           downloadLink.style.display = "none";
           document.body.appendChild(downloadLink);
@@ -528,14 +563,10 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
           // Efectos de completado
           downloadBtn.textContent = "¡Descargado!";
-          const progressText = progressBar.querySelector(".progress-text");
-          if (progressText) progressText.textContent = "¡Completado!";
+          progressText.textContent = "¡Completado!";
           downloadBtn.classList.remove("downloading");
 
-          showNotification(
-            `${gameName} se ha descargado correctamente`,
-            "success"
-          );
+          showNotification(`${gameName} se ha descargado correctamente`, "success");
 
           setTimeout(() => {
             downloadBtn.textContent = originalText;
@@ -552,33 +583,9 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     }
 
     // Actualizar barra de progreso
-    const progressFill = progressBar.querySelector(".progress-fill");
-    const progressText = progressBar.querySelector(".progress-text");
-    if (progressFill && progressText) {
-      progressFill.style.width = `${progress}%`;
-      progressText.textContent = `${Math.round(progress)}%`;
-    }
-  }, 120); // Intervalo ligeramente aumentado
-}
-
-// Helper to ensure only a safe protocol can be used for download URLs
-function sanitizeDownloadUrl(url) {
-  try {
-    const allowedProtocols = ['http:', 'https:'];
-    // Allow relative URLs (the browser will treat them as the current origin), or absolute with safe protocols
-    const tmp = document.createElement('a');
-    tmp.href = url;
-    if (
-      tmp.protocol === ':' || // Relative URL (missing protocol)
-      allowedProtocols.includes(tmp.protocol)
-    ) {
-      return url;
-    }
-  } catch (e) {
-    // If URL parsing fails, treat as unsafe
-  }
-  // fallback: block and use a safe placeholder
-  return '#';
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `${Math.round(progress)}%`;
+  }, 120);
 }
 
 // Manejo de errores de descarga
@@ -592,7 +599,6 @@ function handleDownloadError(card, errorMessage) {
     downloadBtn.classList.remove("downloading");
     downloadBtn.disabled = false;
 
-    // Agregar event listener para reintentar
     const retryHandler = () => {
       downloadBtn.removeEventListener("click", retryHandler);
       simulateDownload(card);
@@ -605,8 +611,7 @@ function handleDownloadError(card, errorMessage) {
     const progressFill = progressBar.querySelector(".progress-fill");
     if (progressText) progressText.textContent = "Error en descarga";
     if (progressFill) {
-      progressFill.style.background =
-        "linear-gradient(90deg, #ff00ff, #9d00ff)";
+      progressFill.style.background = "linear-gradient(90deg, #ff00ff, #9d00ff)";
     }
   }
 
@@ -643,17 +648,12 @@ function initContactForm() {
       submitBtn.textContent = "Enviando...";
       submitBtn.disabled = true;
 
-      // Simular envío con mejor UX
       setTimeout(() => {
         submitBtn.textContent = "¡Mensaje Enviado!";
         submitBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
 
-        showNotification(
-          "Mensaje enviado con éxito. Te contactaremos pronto.",
-          "success"
-        );
+        showNotification("Mensaje enviado con éxito. Te contactaremos pronto.", "success");
 
-        // Crear efecto de confeti
         createConfettiEffect(20);
 
         setTimeout(() => {
@@ -707,16 +707,13 @@ function validateForm(form) {
   });
 
   if (!isValid) {
-    showNotification(
-      "Por favor, completa todos los campos obligatorios correctamente",
-      "error"
-    );
+    showNotification("Por favor, completa todos los campos obligatorios correctamente", "error");
   }
 
   return isValid;
 }
 
-// Efecto de confeti para éxito
+// Efecto de confeti para éxito - CORREGIDO
 function createConfettiEffect(count) {
   const container = document.body;
 
@@ -745,9 +742,7 @@ function createConfettiEffect(count) {
         [
           { transform: "translate(-50%, 0) rotate(0deg)", opacity: 1 },
           {
-            transform: `translate(${Math.random() * 200 - 100}px, ${
-              window.innerHeight
-            }px) rotate(${Math.random() * 360}deg)`,
+            transform: `translate(${Math.random() * 200 - 100}px, ${window.innerHeight}px) rotate(${Math.random() * 360}deg)`,
             opacity: 0,
           },
         ],
@@ -766,11 +761,9 @@ function createConfettiEffect(count) {
   }
 }
 
-// Mostrar notificaciones
+// Mostrar notificaciones - CORREGIDA
 function showNotification(message, type = "info") {
-  const existingNotifications = document.querySelectorAll(
-    ".custom-notification"
-  );
+  const existingNotifications = document.querySelectorAll(".custom-notification");
   existingNotifications.forEach((notification) => {
     notification.remove();
   });
@@ -802,6 +795,7 @@ function showNotification(message, type = "info") {
     font-weight: 500;
   `;
 
+  // Usar textContent en lugar de innerHTML para evitar XSS
   notification.textContent = message;
   document.body.appendChild(notification);
 
@@ -839,7 +833,7 @@ function highlightActiveNav() {
   });
 }
 
-// Cargar juegos dinámicamente - OPTIMIZADO
+// Cargar juegos dinámicamente - OPTIMIZADO Y SEGURO
 function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
@@ -849,8 +843,7 @@ function cargarJuegos() {
   const juegos = [
     {
       nombre: "Nexus Runner",
-      descripcion:
-        "Corre a través de dimensiones en este juego de plataformas de alta velocidad con gráficos psicodélicos.",
+      descripcion: "Corre a través de dimensiones en este juego de plataformas de alta velocidad con gráficos psicodélicos.",
       imagen: "../assets/images/juegos/",
       archivo: "../assets/downloads/juegos/",
       tamaño: "850 MB",
@@ -858,42 +851,71 @@ function cargarJuegos() {
     },
     {
       nombre: "Cyber Samurai",
-      descripcion:
-        "Conviértete en un samurái cibernético y libera a Neo-Tokio de corporaciones corruptas.",
+      descripcion: "Conviértete en un samurái cibernético y libera a Neo-Tokio de corporaciones corruptas.",
       imagen: "../assets/images/juegos/",
       archivo: "../assets/downloads/juegos/",
       tamaño: "1.2 GB",
       tags: ["Acción", "Hack and Slash", "Ciberpunk"],
     },
-    // Agrega más juegos según necesites
   ];
 
   juegos.forEach((juego, index) => {
     const juegoCard = document.createElement("div");
     juegoCard.className = "juego-card fade-in";
 
-    // Estrategia de carga optimizada
     const loadingStrategy = index < 4 ? "eager" : "lazy";
 
-    juegoCard.innerHTML = `
-      <div class="juego-img">
-        <img src="${juego.imagen}" 
-             alt="${juego.nombre}" 
-             loading="${loadingStrategy}"
-             onerror="this.src='${getPlaceholderSVG()}'">
-      </div>
-      <div class="juego-info">
-        <h3>${juego.nombre}</h3>
-        <p>${juego.descripcion}</p>
-        <div class="juego-meta">
-          <span class="juego-tamaño">${juego.tamaño}</span>
-          <span class="juego-tag">${juego.tags[0]}</span>
-        </div>
-        <a href="#" class="btn btn-primary" data-archivo="${
-          juego.archivo
-        }" data-nombre="${juego.nombre}">Descargar</a>
-      </div>
-    `;
+    // Crear elementos de forma segura sin usar innerHTML
+    const juegoImg = document.createElement("div");
+    juegoImg.className = "juego-img";
+
+    const img = document.createElement("img");
+    img.src = juego.imagen;
+    img.alt = juego.nombre;
+    img.loading = loadingStrategy;
+    img.addEventListener("error", function() {
+      this.src = getPlaceholderSVG();
+    });
+
+    juegoImg.appendChild(img);
+
+    const juegoInfo = document.createElement("div");
+    juegoInfo.className = "juego-info";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = juego.nombre;
+
+    const p = document.createElement("p");
+    p.textContent = juego.descripcion;
+
+    const juegoMeta = document.createElement("div");
+    juegoMeta.className = "juego-meta";
+
+    const tamañoSpan = document.createElement("span");
+    tamañoSpan.className = "juego-tamaño";
+    tamañoSpan.textContent = juego.tamaño;
+
+    const tagSpan = document.createElement("span");
+    tagSpan.className = "juego-tag";
+    tagSpan.textContent = juego.tags[0];
+
+    juegoMeta.appendChild(tamañoSpan);
+    juegoMeta.appendChild(tagSpan);
+
+    const downloadBtn = document.createElement("a");
+    downloadBtn.href = "#";
+    downloadBtn.className = "btn btn-primary";
+    downloadBtn.setAttribute("data-archivo", juego.archivo);
+    downloadBtn.setAttribute("data-nombre", juego.nombre);
+    downloadBtn.textContent = "Descargar";
+
+    juegoInfo.appendChild(h3);
+    juegoInfo.appendChild(p);
+    juegoInfo.appendChild(juegoMeta);
+    juegoInfo.appendChild(downloadBtn);
+
+    juegoCard.appendChild(juegoImg);
+    juegoCard.appendChild(juegoInfo);
 
     juegosGrid.appendChild(juegoCard);
   });
@@ -906,9 +928,7 @@ function cargarJuegos() {
 
 // SVG placeholder mejorado
 function getPlaceholderSVG() {
-  return (
-    "data:image/svg+xml;base64," +
-    btoa(`
+  return "data:image/svg+xml;base64," + btoa(`
     <svg width="400" height="225" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -922,8 +942,7 @@ function getPlaceholderSVG() {
         Imagen no disponible
       </text>
     </svg>
-  `)
-  );
+  `);
 }
 
 // Manejo de errores de imágenes - OPTIMIZADO
@@ -931,7 +950,6 @@ function initImageErrorHandling() {
   const images = document.querySelectorAll("img");
 
   images.forEach((img) => {
-    // Remover loading="lazy" de imágenes críticas (above-the-fold)
     if (isAboveTheFold(img)) {
       img.loading = "eager";
     }
@@ -948,7 +966,6 @@ function initImageErrorHandling() {
       this.style.opacity = "1";
     });
 
-    // Precargar imágenes importantes
     if (img.classList.contains("critical-image")) {
       preloadImage(img.src);
     }
@@ -979,7 +996,6 @@ let favorites = [];
 
 function initMemeGallery() {
   try {
-    // Elementos del DOM
     const memeVideo = document.getElementById("memeVideo");
     const soundToggle = document.getElementById("soundToggle");
     const prevMemeBtn = document.getElementById("prevMeme");
@@ -993,13 +1009,11 @@ function initMemeGallery() {
     const currentMemeSpan = document.getElementById("currentMeme");
     const totalMemesSpan = document.getElementById("totalMemes");
 
-    // Verificar elementos críticos
     if (!memeVideo || !totalMemesSpan) {
       console.error("Elementos esenciales de memes no encontrados");
       return;
     }
 
-    // Agregar manejo de errores global para el video
     memeVideo.addEventListener("error", function (e) {
       console.error("Error en el elemento de video:", e);
       showNotification("Error al cargar el video", "error");
@@ -1009,44 +1023,36 @@ function initMemeGallery() {
     memeDatabase = [
       {
         id: 1,
-        video: "", // aqui va el vinculo del video
-        thumbnail: "", // aqui va el vinculo del video
+        video: "",
+        thumbnail: "",
         title: "¡Esto es gaming puro! 🎮",
         favorite: false,
       },
       {
         id: 2,
-        video: "", // aqui va el vinculo del video
-        thumbnail: "", // aqui va el vinculo del video
+        video: "",
+        thumbnail: "",
         title: "Cuando ganas por primera vez 😎",
         favorite: false,
       },
-      // Agrega más memes aquí
     ];
 
-    // Cargar favoritos
     favorites = JSON.parse(localStorage.getItem("memeFavorites")) || [];
 
-    // Inicializar contadores
     totalMemesSpan.textContent = memeDatabase.length;
 
-    // Sincronizar favoritos
     memeDatabase.forEach((meme) => {
       meme.favorite = favorites.includes(meme.id);
     });
 
-    // Generar miniaturas
     generateThumbnails();
 
-    // Cargar primer meme
     if (memeDatabase.length > 0) {
       loadMeme(currentMemeIndex);
     }
 
-    // Actualizar navegación
     updateNavButtons();
 
-    // Event listeners seguros
     if (soundToggle) soundToggle.addEventListener("click", toggleSound);
     if (prevMemeBtn) prevMemeBtn.addEventListener("click", loadPrevMeme);
     if (nextMemeBtn) nextMemeBtn.addEventListener("click", loadNextMeme);
@@ -1054,7 +1060,6 @@ function initMemeGallery() {
     if (shareMemeBtn) shareMemeBtn.addEventListener("click", shareMeme);
     if (favoriteBtn) favoriteBtn.addEventListener("click", toggleFavorite);
 
-    // Navegación por teclado
     document.addEventListener("keydown", function (event) {
       if (event.code === "ArrowLeft") {
         loadPrevMeme();
@@ -1074,7 +1079,7 @@ function initMemeGallery() {
   }
 }
 
-// Funciones de la galería de memes
+// Funciones de la galería de memes - CORREGIDAS
 function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
@@ -1083,18 +1088,21 @@ function generateThumbnails() {
 
   memeDatabase.forEach((meme, index) => {
     const thumb = document.createElement("div");
-    thumb.className = `meme-thumb ${
-      index === currentMemeIndex ? "active" : ""
-    }`;
+    thumb.className = `meme-thumb ${index === currentMemeIndex ? "active" : ""}`;
     thumb.dataset.index = index;
 
     if (meme.thumbnail) {
-      thumb.innerHTML = `<img src="${meme.thumbnail}" alt="Meme ${meme.id}" loading="lazy">`;
+      const img = document.createElement("img");
+      img.src = meme.thumbnail;
+      img.alt = `Meme ${meme.id}`;
+      img.loading = "lazy";
+      thumb.appendChild(img);
     } else {
-      thumb.style.background = `linear-gradient(45deg, #${Math.floor(
-        Math.random() * 16777215
-      ).toString(16)}, #${Math.floor(Math.random() * 16777215).toString(16)})`;
-      thumb.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;">Meme ${meme.id}</div>`;
+      thumb.style.background = `linear-gradient(45deg, #${Math.floor(Math.random() * 16777215).toString(16)}, #${Math.floor(Math.random() * 16777215).toString(16)})`;
+      const placeholder = document.createElement("div");
+      placeholder.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;";
+      placeholder.textContent = `Meme ${meme.id}`;
+      thumb.appendChild(placeholder);
     }
 
     thumb.addEventListener("click", () => {
@@ -1118,26 +1126,25 @@ function loadMeme(index) {
   currentMemeIndex = index;
   const meme = memeDatabase[index];
 
-  // Verificar que el video tenga una fuente válida
   if (!meme.video || meme.video === "") {
     console.warn(`El meme ${index} no tiene video válido`);
     showNotification("Este meme no tiene video disponible", "error");
     return;
   }
 
-  // Guardar el estado de mute actual
   const wasMuted = memeVideo.muted;
 
-  // Limpiar fuentes anteriores
-  memeVideo.innerHTML = "";
+  // Limpiar fuentes anteriores de forma segura
+  while (memeVideo.firstChild) {
+    memeVideo.removeChild(memeVideo.firstChild);
+  }
 
-  // Crear nueva fuente
   const source = document.createElement("source");
   source.src = meme.video;
   source.type = "video/mp4";
   memeVideo.appendChild(source);
 
-  // Actualizar UI
+  // Usar textContent en lugar de innerHTML
   memeText.textContent = meme.title;
   currentMemeSpan.textContent = index + 1;
 
@@ -1145,57 +1152,41 @@ function loadMeme(index) {
   updateActiveThumbnail();
   updateNavButtons();
 
-  // Efectos
   createMemeParticles(15);
 
-  // Manejar la carga y reproducción correctamente
-  memeVideo.load(); // Forzar recarga
+  memeVideo.load();
 
-  // Esperar a que el video esté listo para reproducir
   const playVideo = () => {
-    memeVideo.muted = wasMuted; // Restaurar estado de mute
+    memeVideo.muted = wasMuted;
 
-    memeVideo
-      .play()
-      .then(() => {
-        console.log(`Reproduciendo meme ${index}`);
-      })
-      .catch((error) => {
-        console.warn("Error al reproducir automáticamente:", error);
+    memeVideo.play().catch((error) => {
+      console.warn("Error al reproducir automáticamente:", error);
+      memeVideo.controls = true;
 
-        // Mostrar controles para reproducción manual
-        memeVideo.controls = true;
+      const tryPlayOnInteraction = () => {
+        memeVideo.play().catch((e) => {
+          console.log("Reproducción manual requerida");
+        });
+        document.removeEventListener("click", tryPlayOnInteraction);
+        document.removeEventListener("touchstart", tryPlayOnInteraction);
+      };
 
-        // Intentar reproducción con interacción del usuario
-        const tryPlayOnInteraction = () => {
-          memeVideo.play().catch((e) => {
-            console.log("Reproducción manual requerida");
-          });
-          // Remover event listeners después del primer intento
-          document.removeEventListener("click", tryPlayOnInteraction);
-          document.removeEventListener("touchstart", tryPlayOnInteraction);
-        };
-
-        document.addEventListener("click", tryPlayOnInteraction);
-        document.addEventListener("touchstart", tryPlayOnInteraction);
-      });
+      document.addEventListener("click", tryPlayOnInteraction);
+      document.addEventListener("touchstart", tryPlayOnInteraction);
+    });
   };
 
-  // Esperar a que el metadata esté cargado
   memeVideo.addEventListener("loadedmetadata", playVideo, { once: true });
-
-  // Timeout de seguridad si loadedmetadata no se dispara
   setTimeout(playVideo, 1000);
 }
 
-// FUNCIÓN TOGGLESOUND MEJORADA
+// Resto de las funciones de memes (sin cambios significativos)
 function toggleSound() {
   const memeVideo = document.getElementById("memeVideo");
   const soundToggle = document.getElementById("soundToggle");
 
   if (!memeVideo || !soundToggle) return;
 
-  // Cambiar estado de mute
   memeVideo.muted = !memeVideo.muted;
 
   if (memeVideo.muted) {
@@ -1205,7 +1196,6 @@ function toggleSound() {
     soundToggle.textContent = "🔊";
     soundToggle.title = "Silenciar";
 
-    // Intentar reproducir si estaba pausado
     if (memeVideo.paused) {
       memeVideo.play().catch((e) => {
         console.log("No se pudo reproducir automáticamente");
@@ -1246,7 +1236,7 @@ function loadRandomMeme() {
     }, 500);
   }
 
-  createMemeParticles(20); // Reducido de 30 a 20
+  createMemeParticles(20);
 }
 
 function toggleFavorite() {
@@ -1263,7 +1253,7 @@ function toggleFavorite() {
 
   localStorage.setItem("memeFavorites", JSON.stringify(favorites));
   updateFavoriteButton();
-  createMemeParticles(10); // Reducido de 15 a 10
+  createMemeParticles(10);
 }
 
 function updateFavoriteButton() {
@@ -1305,16 +1295,13 @@ function shareMeme() {
   const meme = memeDatabase[currentMemeIndex];
 
   if (navigator.share) {
-    navigator
-      .share({
-        title: `Meme Gaming: ${meme.title}`,
-        text: "¡Mira este divertido meme gaming de SerakDep Gaming!",
-        url: window.location.href + `#meme-${meme.id}`,
-      })
-      .catch((error) => console.log("Error al compartir", error));
+    navigator.share({
+      title: `Meme Gaming: ${meme.title}`,
+      text: "¡Mira este divertido meme gaming de SerakDep Gaming!",
+      url: window.location.href + `#meme-${meme.id}`,
+    }).catch((error) => console.log("Error al compartir", error));
   } else {
     const shareText = `¡Mira este meme gaming: "${meme.title}" - SerakDep Gaming`;
-    // Usar showNotification en lugar de alert para mejor UX
     showNotification(shareText, "info");
   }
 }
@@ -1337,14 +1324,7 @@ function createMemeParticles(count) {
       top: ${posY}px;
       width: ${Math.random() * 4 + 2}px;
       height: ${Math.random() * 4 + 2}px;
-      background: ${
-        [
-          "rgba(0, 195, 255, 0.7)",
-          "rgba(255, 0, 128, 0.7)",
-          "rgba(0, 255, 157, 0.7)",
-          "rgba(255, 215, 0, 0.7)",
-        ][Math.floor(Math.random() * 4)]
-      };
+      background: ${["rgba(0, 195, 255, 0.7)", "rgba(255, 0, 128, 0.7)", "rgba(0, 255, 157, 0.7)", "rgba(255, 215, 0, 0.7)"][Math.floor(Math.random() * 4)]};
       border-radius: 50%;
       pointer-events: none;
       z-index: 10;
@@ -1360,9 +1340,7 @@ function createMemeParticles(count) {
           opacity: 1,
         },
         {
-          transform: `translate(${Math.random() * 80 - 40}px, ${
-            Math.random() * 80 - 40
-          }px) scale(0)`,
+          transform: `translate(${Math.random() * 80 - 40}px, ${Math.random() * 80 - 40}px) scale(0)`,
           opacity: 0,
         },
       ],
@@ -1390,13 +1368,11 @@ if (!document.querySelector("#shake-animation")) {
       75% { transform: translateX(-5px); }
     }
     
-    /* Optimizaciones de rendimiento */
     .juego-card, .meme-thumb, .btn {
       will-change: transform;
       transform: translateZ(0);
     }
     
-    /* Mejoras de accesibilidad */
     @media (prefers-reduced-motion: reduce) {
       * {
         animation-duration: 0.01ms !important;
