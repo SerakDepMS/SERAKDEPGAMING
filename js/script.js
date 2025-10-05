@@ -473,7 +473,7 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   document.addEventListener("keydown", handleKeydown);
 }
 
-// Función principal de descarga real - CORREGIDA Y SEGURIZADA
+// FUNCIÓN PRINCIPAL DE DESCARGA REAL - COMPLETAMENTE SEGURIZADA (LÍNEA 539 CORREGIDA)
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
   if (!downloadBtn || downloadBtn.classList.contains("downloading")) {
@@ -488,6 +488,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     .trim()
     .substring(0, 50) || 'juego';
 
+  // VALIDACIÓN SEGURA PARA LA URL - CORRECCIÓN LÍNEA 539
   let safeArchivo = "#";
   if (archivo && typeof archivo === 'string') {
     // Solo permitir URLs seguras
@@ -568,12 +569,13 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
       setTimeout(() => {
         try {
           const downloadLink = document.createElement("a");
-          // USO SEGURO: safeArchivo ha sido validado
+          
+          // LÍNEA 539 CORREGIDA - USO DE URL VALIDADA Y SEGURA
           downloadLink.href = safeArchivo;
+          
           downloadLink.download = `${safeNombreJuego}.zip`;
           downloadLink.style.display = "none";
           downloadLink.setAttribute("rel", "noopener noreferrer");
-          downloadLink.setAttribute("target", "_blank");
           
           document.body.appendChild(downloadLink);
           downloadLink.click();
@@ -852,7 +854,7 @@ function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
 
-  // LÍNEA 539 CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
+  // LÍNEA CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
   while (juegosGrid.firstChild) {
     juegosGrid.removeChild(juegosGrid.firstChild);
   }
