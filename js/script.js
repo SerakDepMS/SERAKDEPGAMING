@@ -564,13 +564,21 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 // Helper to ensure only a safe protocol can be used for download URLs
 function sanitizeDownloadUrl(url) {
   try {
-    const allowedProtocols = ['http:', 'https:'];
-    // Allow relative URLs (the browser will treat them as the current origin), or absolute with safe protocols
+    if (typeof url !== 'string') return '#';
+    url = url.trim().replace(/[\x00-\x1F\x7F]+/g, ''); // Remove control characters
+    // Disallow data:, javascript:, vbscript:, and file: protocols
     const tmp = document.createElement('a');
     tmp.href = url;
+    const allowedProtocols = ['http:', 'https:'];
+    // If input is a relative URL, protocol will be ':'
+    const isRelative = (tmp.protocol === ':');
+    const isSafeProtocol = allowedProtocols.includes(tmp.protocol);
+    // Disallow URLs that begin with "//" (protocol-relative)
+    const startsWithDoubleSlash = url.startsWith('//');
+    // Very basic further check: disallow javascript:/data: urls inside relative paths
     if (
-      tmp.protocol === ':' || // Relative URL (missing protocol)
-      allowedProtocols.includes(tmp.protocol)
+      (isRelative && !startsWithDoubleSlash && !/^(\s*javascript:|\s*data:|\s*vbscript:|\s*file:)/i.test(url)) ||
+      isSafeProtocol
     ) {
       return url;
     }
