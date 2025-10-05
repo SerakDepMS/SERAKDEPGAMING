@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Noticias - SerakDep Gaming</title>
+    <link
+      rel="stylesheet"
+      href="./css/futuristic.css"
+      type="text/css"
+      charset="UTF-8"
+    />
+  </head>
+  <body>
+    <!-- Encabezado -->
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">SERAKDEP<span>GAMING</span></div>
+          <nav>
+            <ul>
+              <li><a href="inicio.html">Inicio</a></li>
+              <li><a href="juegos.html">Juegos</a></li>
+              <li><a href="galeria.html">Galería</a></li>
+              <li>
+                <a href="noticias.html" class="active">Noticias</a>
+              </li>
+              <li><a href="contacto.html">Contacto</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sección Noticias -->
+    <section id="noticias">
+      <div class="container">
+        <h1 class="section-title">Últimas Noticias</h1>
+        <p class="section-subtitle">
+          Mantente al día con las últimas actualizaciones, lanzamientos y
+          eventos de SerakDep Gaming.
+        </p>
+
+        <!-- Barra de búsqueda CORREGIDA -->
+        <div class="noticias-busqueda">
+          <div class="search-container">
+            <input
+              type="text"
+              id="search-noticias"
+              name="busqueda-noticias"
+              class="search-input"
+              placeholder="Buscar noticias..."
+              aria-label="Buscar en noticias"
+              autocomplete="off"
+            />
+            <button
+              class="clear-search"
+              type="button"
+              title="Limpiar búsqueda"
+              aria-label="Limpiar búsqueda"
+            >
+              ✕
+            </button>
+            <span class="search-icon" aria-hidden="true">🔍</span>
+          </div>
+        </div>
+
+        <!-- Información y contadores -->
+        <div class="noticias-info">
+          <div class="contador-noticias">
+            Mostrando <span id="contador-actual">6</span> de
+            <span id="contador-total">12</span> noticias
+          </div>
+          <div class="contador-pagina">
+            Página <span id="pagina-actual">1</span> de
+            <span id="paginas-total">2</span>
+          </div>
+        </div>
+
+        <!-- Filtros CORREGIDOS -->
+        <div
+          class="noticias-filtros"
+          role="group"
+          aria-label="Filtrar noticias por categoría"
+        >
+          <button
+            class="filtro-btn active"
+            type="button"
+            data-categoria="todas"
+            aria-pressed="true"
+          >
+            Todas
+          </button>
+          <button
+            class="filtro-btn"
+            type="button"
+            data-categoria="lanzamiento"
+            aria-pressed="false"
+          >
+            Lanzamientos
+          </button>
+          <button
+            class="filtro-btn"
+            type="button"
+            data-categoria="actualizacion"
+            aria-pressed="false"
+          >
+            Actualizaciones
+          </button>
+          <button
+            class="filtro-btn"
+            type="button"
+            data-categoria="evento"
+            aria-pressed="false"
+          >
+            Eventos
+          </button>
+          <button
+            class="filtro-btn"
+            type="button"
+            data-categoria="comunidad"
+            aria-pressed="false"
+          >
+            Comunidad
+          </button>
+        </div>
+
+        <!-- Grid de noticias -->
+        <div class="noticias-grid" role="list" aria-label="Lista de noticias">
+          <!-- Noticia 1 -->
+          <article
+            class="noticia-card"
+            data-categoria="lanzamiento"
+            data-id="1"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Captura de pantalla del juego Nexus Runner mostrando carreras multidimensionales"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge lanzamiento"
+                    >Nuevo Lanzamiento</span
+                  >
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir Nexus Runner a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Nexus Runner ya disponible</h2>
+              <p class="noticia-resumen">
+                El esperado juego de carreras multidimensionales ya está
+                disponible para descarga. Experimenta velocidades nunca antes
+                vistas en 15 dimensiones diferentes.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo">Hace 2 días • 3 min lectura</span>
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre Nexus Runner"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Noticia 2 -->
+          <article
+            class="noticia-card"
+            data-categoria="actualizacion"
+            data-id="2"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Personaje de Cyber Samurai en acción con espadas láser"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge actualizacion">Actualización</span>
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir Cyber Samurai a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Cyber Samurai v2.5</h2>
+              <p class="noticia-resumen">
+                Nuevas habilidades, misiones y mejoras gráficas llegan a Cyber
+                Samurai en su actualización más grande hasta la fecha. Descubre
+                el dojo secreto.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo">Hace 5 días • 5 min lectura</span>
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre Cyber Samurai"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Noticia 3 -->
+          <article
+            class="noticia-card"
+            data-categoria="evento"
+            data-id="3"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Vehículo futurista compitiendo en Quantum Racer"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge evento">Evento</span>
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir torneo Quantum Racer a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Torneo Quantum Racer</h2>
+              <p class="noticia-resumen">
+                Participa en nuestro torneo internacional de Quantum Racer con
+                premios de más de $10,000 en efectivo. Inscripciones abiertas
+                hasta el 30 de noviembre.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo"
+                  >Hace 1 semana • 4 min lectura</span
+                >
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre el torneo Quantum Racer"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Noticia 4 -->
+          <article
+            class="noticia-card"
+            data-categoria="comunidad"
+            data-id="4"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Diseños de personajes creados por la comunidad"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge comunidad">Comunidad</span>
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir concurso de diseño a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Concurso de diseño</h2>
+              <p class="noticia-resumen">
+                Envía tus diseños de personajes para nuestro próximo juego y
+                gana increíbles premios y reconocimiento. Los ganadores serán
+                incluidos en el juego oficial.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo"
+                  >Hace 2 semanas • 3 min lectura</span
+                >
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre el concurso de diseño"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Noticia 5 -->
+          <article
+            class="noticia-card"
+            data-categoria="actualizacion"
+            data-id="5"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Gráficos mostrando mejoras de rendimiento en juegos"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge actualizacion">Actualización</span>
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir mejoras de rendimiento a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Mejoras de rendimiento</h2>
+              <p class="noticia-resumen">
+                Optimizaciones significativas en todos nuestros juegos para un
+                rendimiento más fluido en hardware de gama media. Hasta 40% más
+                de FPS en dispositivos compatibles.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo"
+                  >Hace 3 semanas • 2 min lectura</span
+                >
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre mejoras de rendimiento"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+
+          <!-- Noticia 6 -->
+          <article
+            class="noticia-card"
+            data-categoria="lanzamiento"
+            data-id="6"
+            role="listitem"
+          >
+            <img
+              src=""
+              alt="Vista previa de Neon Dungeon con estética synthwave"
+              class="noticia-imagen"
+              loading="lazy"
+            />
+            <div class="noticia-content">
+              <div class="noticia-header">
+                <div class="noticia-badges">
+                  <span class="noticia-badge lanzamiento">Próximamente</span>
+                </div>
+                <button
+                  class="favorito-btn"
+                  type="button"
+                  title="Añadir a favoritos"
+                  aria-label="Añadir Neon Dungeon a favoritos"
+                >
+                  ☆
+                </button>
+              </div>
+              <h2 class="noticia-titulo">Neon Dungeon en desarrollo</h2>
+              <p class="noticia-resumen">
+                Anunciamos nuestro nuevo juego de mazmorras generadas
+                proceduralmente con estética synthwave. Beta cerrada disponible
+                para suscriptores.
+              </p>
+              <div class="noticia-meta">
+                <span class="noticia-tiempo">Hace 1 mes • 4 min lectura</span>
+                <a
+                  href="#"
+                  class="noticia-link"
+                  aria-label="Leer más sobre Neon Dungeon"
+                  >Leer más</a
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Paginación mejorada -->
+        <nav class="noticias-paginacion" aria-label="Paginación de noticias">
+          <button
+            class="paginacion-btn anterior"
+            type="button"
+            disabled
+            aria-label="Página anterior"
+          >
+            ◀️ Anterior
+          </button>
+          <div class="paginacion-info">
+            <button
+              class="paginacion-btn active"
+              type="button"
+              aria-label="Página 1"
+              aria-current="page"
+            >
+              1
+            </button>
+            <button class="paginacion-btn" type="button" aria-label="Página 2">
+              2
+            </button>
+            <button class="paginacion-btn" type="button" aria-label="Página 3">
+              3
+            </button>
+          </div>
+          <button
+            class="paginacion-btn siguiente"
+            type="button"
+            aria-label="Página siguiente"
+          >
+            Siguiente ▶️
+          </button>
+        </nav>
+
+        <!-- Newsletter mejorado CORREGIDO -->
+        <aside
+          class="newsletter"
+          aria-label="Formulario de suscripción al newsletter"
+        >
+          <h3>No te pierdas nada</h3>
+          <p>
+            Suscríbete a nuestro newsletter y recibe las noticias directamente
+            en tu correo. Ofertas exclusivas para suscriptores.
+          </p>
+          <form class="newsletter-form" aria-label="Formulario de suscripción">
+            <label for="newsletter-email" class="sr-only"
+              >Correo electrónico</label
+            >
+            <input
+              type="email"
+              id="newsletter-email"
+              name="newsletter_email"
+              placeholder="tu@email.com"
+              required
+              aria-required="true"
+              autocomplete="email"
+            />
+            <button type="submit" class="btn btn-primary">Suscribirse</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">SERAKDEP GAMING</div>
+
+          <div class="security-badges">
+            <div class="security-badge">
+              <span class="badge-icon" aria-hidden="true">🛡️</span>
+              <span>Verificados</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon" aria-hidden="true">🔍</span>
+              <span>Analizados</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon" aria-hidden="true">✅</span>
+              <span>Limpios</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon" aria-hidden="true">⚡</span>
+              <span>Optimizados</span>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a
+              href="#"
+              class="social-link"
+              title="Síguenos en Facebook"
+              aria-label="Facebook"
+              >📘</a
+            >
+            <a
+              href="#"
+              class="social-link"
+              title="Síguenos en Twitter"
+              aria-label="Twitter"
+              >🐦</a
+            >
+            <a
+              href="#"
+              class="social-link"
+              title="Síguenos en Instagram"
+              aria-label="Instagram"
+              >📷</a
+            >
+            <a
+              href="#"
+              class="social-link"
+              title="Únete a nuestra comunidad"
+              aria-label="Comunidad Gaming"
+              >🎮</a
+            >
+            <a
+              href="#"
+              class="social-link"
+              title="Canal de YouTube"
+              aria-label="YouTube"
+              >📹</a
+            >
+          </div>
+
+          <div class="footer-links">
+            <a href="inicio.html">Inicio</a>
+            <a href="juegos.html">Juegos Verificados</a>
+            <a href="noticias.html">Noticias</a>
+            <a href="contacto.html">Soporte</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+
+          <div class="footer-bottom">
+            <p>
+              &copy; 2025 SerakDep Gaming. Todos los derechos reservados. |
+              Diseñado para gamers del futuro | Juegos extraídos y verificados
+              libre de virus
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts corregidos -->
+    <script
+      src="./js/noticias.js"
+      type="text/javascript"
+      charset="UTF-8"
+    ></script>
+  </body>
+</html>
+</html>
