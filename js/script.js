@@ -473,11 +473,43 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   document.addEventListener("keydown", handleKeydown);
 }
 
-// Función principal de descarga real - CORREGIDA
+// Función principal de descarga real - CORREGIDA Y SEGURIZADA
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
   if (!downloadBtn || downloadBtn.classList.contains("downloading")) {
     return;
+  }
+
+  // Validar y sanitizar inputs
+  const safeGameName = (gameName || 'Juego').toString().substring(0, 100);
+  const safeNombreJuego = (nombreJuego || safeGameName)
+    .toString()
+    .replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\-_]/g, '')
+    .trim()
+    .substring(0, 50) || 'juego';
+
+  let safeArchivo = "#";
+  if (archivo && typeof archivo === 'string') {
+    // Solo permitir URLs seguras
+    const allowedProtocols = ['http:', 'https:', 'data:', 'blob:'];
+    const isRelative = /^[\.\/]/.test(archivo);
+    const isAbsolute = /^\//.test(archivo);
+    
+    try {
+      if (isRelative || isAbsolute) {
+        safeArchivo = archivo;
+      } else if (archivo.startsWith('http://') || archivo.startsWith('https://')) {
+        const url = new URL(archivo);
+        if (allowedProtocols.includes(url.protocol)) {
+          safeArchivo = archivo;
+        }
+      } else if (archivo === '#') {
+        safeArchivo = '#';
+      }
+    } catch (e) {
+      console.warn('URL de descarga inválida:', archivo);
+      safeArchivo = "#";
+    }
   }
 
   downloadBtn.classList.add("downloading");
@@ -536,9 +568,13 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
       setTimeout(() => {
         try {
           const downloadLink = document.createElement("a");
-          downloadLink.href = archivo;
-          downloadLink.download = `${nombreJuego}.zip`;
+          // USO SEGURO: safeArchivo ha sido validado
+          downloadLink.href = safeArchivo;
+          downloadLink.download = `${safeNombreJuego}.zip`;
           downloadLink.style.display = "none";
+          downloadLink.setAttribute("rel", "noopener noreferrer");
+          downloadLink.setAttribute("target", "_blank");
+          
           document.body.appendChild(downloadLink);
           downloadLink.click();
           document.body.removeChild(downloadLink);
@@ -547,7 +583,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
           progressText.textContent = "¡Completado!";
           downloadBtn.classList.remove("downloading");
 
-          showNotification(`${gameName} se ha descargado correctamente`, "success");
+          showNotification(`${safeGameName} se ha descargado correctamente`, "success");
 
           setTimeout(() => {
             downloadBtn.textContent = originalText;
@@ -558,6 +594,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
             }
           }, 3000);
         } catch (error) {
+          console.error('Error en descarga:', error);
           handleDownloadError(card, "Error al descargar el archivo");
         }
       }, 500);
