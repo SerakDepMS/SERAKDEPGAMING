@@ -810,7 +810,7 @@ function highlightActiveNav() {
   });
 }
 
-// CORRECCIÓN ESPECÍFICA PARA LÍNEA 539
+// CORRECCIÓN ESPECÍFICA PARA LÍNEA 539 - VERSIÓN SEGURA
 function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
@@ -905,9 +905,10 @@ function cargarJuegos() {
   }, 100);
 }
 
-// SVG placeholder mejorado
+// SVG placeholder mejorado - VERSIÓN SEGURA
 function getPlaceholderSVG() {
-  return "data:image/svg+xml;base64," + btoa(`
+  // Crear SVG de forma segura sin innerHTML
+  const svgString = `
     <svg width="400" height="225" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -921,7 +922,9 @@ function getPlaceholderSVG() {
         Imagen no disponible
       </text>
     </svg>
-  `);
+  `;
+  
+  return "data:image/svg+xml;base64," + btoa(svgString);
 }
 
 // Manejo de errores de imágenes - OPTIMIZADO
@@ -966,7 +969,7 @@ function preloadImage(src) {
   document.head.appendChild(link);
 }
 
-// ===== SISTEMA DE MEMES CON MÚLTIPLES VIDEOS =====
+// ===== SISTEMA DE MEMES CON MÚLTIPLES VIDEOS - VERSIÓN SEGURA =====
 
 let currentMemeIndex = 0;
 let memeDatabase = [];
@@ -1058,6 +1061,7 @@ function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
 
+  // Limpiar thumbnails de forma segura
   while (memeThumbnails.firstChild) {
     memeThumbnails.removeChild(memeThumbnails.firstChild);
   }
@@ -1074,6 +1078,7 @@ function generateThumbnails() {
       img.loading = "lazy";
       thumb.appendChild(img);
     } else {
+      // Crear placeholder de forma segura sin innerHTML
       const color1 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
       const color2 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
       thumb.style.background = `linear-gradient(45deg, #${color1}, #${color2})`;
@@ -1112,6 +1117,7 @@ function loadMeme(index) {
 
   const wasMuted = memeVideo.muted;
 
+  // Limpiar video de forma segura
   while (memeVideo.firstChild) {
     memeVideo.removeChild(memeVideo.firstChild);
   }
@@ -1331,7 +1337,7 @@ function createMemeParticles(count) {
   }
 }
 
-// Añadir keyframes de animación para el shake
+// Añadir keyframes de animación para el shake de forma segura
 if (!document.querySelector("#shake-animation")) {
   const style = document.createElement("style");
   style.id = "shake-animation";
@@ -1411,6 +1417,7 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
 
 
