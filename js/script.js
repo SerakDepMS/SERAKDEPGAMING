@@ -519,7 +519,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
         try {
           // Crear enlace de descarga
           const downloadLink = document.createElement("a");
-          downloadLink.href = archivo;
+          downloadLink.href = sanitizeDownloadUrl(archivo);
           downloadLink.download = `${nombreJuego}.zip`;
           downloadLink.style.display = "none";
           document.body.appendChild(downloadLink);
@@ -559,6 +559,26 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
       progressText.textContent = `${Math.round(progress)}%`;
     }
   }, 120); // Intervalo ligeramente aumentado
+}
+
+// Helper to ensure only a safe protocol can be used for download URLs
+function sanitizeDownloadUrl(url) {
+  try {
+    const allowedProtocols = ['http:', 'https:'];
+    // Allow relative URLs (the browser will treat them as the current origin), or absolute with safe protocols
+    const tmp = document.createElement('a');
+    tmp.href = url;
+    if (
+      tmp.protocol === ':' || // Relative URL (missing protocol)
+      allowedProtocols.includes(tmp.protocol)
+    ) {
+      return url;
+    }
+  } catch (e) {
+    // If URL parsing fails, treat as unsafe
+  }
+  // fallback: block and use a safe placeholder
+  return '#';
 }
 
 // Manejo de errores de descarga
