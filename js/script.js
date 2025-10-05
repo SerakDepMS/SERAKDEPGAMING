@@ -810,11 +810,12 @@ function highlightActiveNav() {
   });
 }
 
-// Cargar juegos dinámicamente - OPTIMIZADO Y SEGURO
+// CORRECCIÓN ESPECÍFICA PARA LÍNEA 539
 function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
 
+  // LÍNEA 539 CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
   while (juegosGrid.firstChild) {
     juegosGrid.removeChild(juegosGrid.firstChild);
   }
@@ -1053,12 +1054,10 @@ function initMemeGallery() {
   }
 }
 
-// CORRECCIÓN ESPECÍFICA PARA LA LÍNEA 557
 function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
 
-  // ESTA ES LA LÍNEA 557 CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
   while (memeThumbnails.firstChild) {
     memeThumbnails.removeChild(memeThumbnails.firstChild);
   }
@@ -1093,7 +1092,6 @@ function generateThumbnails() {
   });
 }
 
-// FUNCIÓN LOADMEME CORREGIDA
 function loadMeme(index) {
   if (index < 0 || index >= memeDatabase.length) return;
 
@@ -1413,5 +1411,6 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
 
