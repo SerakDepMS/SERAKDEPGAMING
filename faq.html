@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - SerakDep Gaming</title>
+    <link
+      rel="stylesheet"
+      href="./css/futuristic.css"
+      Content-Type="text/css"
+      charset="UTF-8"
+    />
+  </head>
+  <body>
+    <!-- Encabezado -->
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">SERAKDEP<span>GAMING</span></div>
+          <nav>
+            <ul>
+              <li><a href="inicio.html">Inicio</a></li>
+              <li><a href="juegos.html">Juegos</a></li>
+              <li><a href="galeria.html">Galería</a></li>
+              <li><a href="noticias.html">Noticias</a></li>
+              <li><a href="contacto.html">Contacto</a></li>
+              <li><a href="faq.html" class="active">FAQ</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sección FAQ -->
+    <section id="faq">
+      <div class="container">
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+        <p class="section-subtitle">
+          Encuentra respuestas rápidas a las preguntas más comunes sobre
+          SerakDep Gaming.
+        </p>
+
+        <div class="faq-search">
+          <input
+            type="text"
+            id="faq-search-input"
+            name="faq-search"
+            placeholder="Buscar en preguntas frecuentes..."
+            class="search-input"
+            aria-label="Buscar en preguntas frecuentes"
+            autocomplete="off"
+          />
+          <button class="search-btn" aria-label="Buscar" type="button">
+            🔍
+          </button>
+        </div>
+
+        <div class="faq-categories">
+          <button class="category-btn active" data-category="general">
+            General
+          </button>
+          <button class="category-btn" data-category="descargas">
+            Descargas
+          </button>
+          <button class="category-btn" data-category="tecnicos">
+            Problemas Técnicos
+          </button>
+          <button class="category-btn" data-category="cuentas">Cuentas</button>
+          <button class="category-btn" data-category="pagos">Pagos</button>
+        </div>
+
+        <div class="faq-container">
+          <!-- Categoría General -->
+          <div class="faq-category active" id="general">
+            <h3 class="faq-category-title">Preguntas Generales</h3>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿Los juegos de SerakDep Gaming son gratuitos?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>
+                  Sí, todos nuestros juegos son completamente gratuitos para
+                  descargar y jugar. Ofrecemos contenido opcional de pago como
+                  skins, efectos visuales y expansiones, pero el juego base es
+                  100% gratuito.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿En qué plataformas están disponibles los juegos?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>
+                  Actualmente nuestros juegos están disponibles para Windows (10
+                  y 11). Estamos trabajando activamente en versiones para Mac,
+                  Linux y próximamente para consolas de próxima generación.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿Necesito conexión a Internet para jugar?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>
+                  La mayoría de nuestros juegos son completamente offline. Solo
+                  necesitarás conexión a Internet para la descarga inicial y
+                  actualizaciones. Los modos multijugador sí requieren conexión
+                  estable.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿Puedo transmitir los juegos en Twitch/YouTube?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>
+                  ¡Absolutamente! Animamos a los creadores de contenido a
+                  transmitir nuestros juegos. No es necesario pedir permiso y
+                  tenemos un programa especial de afiliados para streamers.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categoría Descargas -->
+          <div class="faq-category" id="descargas">
+            <h3 class="faq-category-title">Descargas e Instalación</h3>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿Por qué mi descarga es lenta?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>
+                  La velocidad de descarga puede variar según tu conexión a
+                  Internet, ubicación geográfica y carga de nuestros servidores.
+                  Te recomendamos:
+                </p>
+                <ul>
+                  <li>Verificar tu conexión a Internet</li>
+                  <li>Cerrar otras aplicaciones que usen ancho de banda</li>
+                  <li>Intentar en horarios de menor demanda (mañanas)</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                ¿Qué requisitos de sistema necesito?
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>Los requisitos varían por juego, pero en general:</p>
+                <div class="requisitos-grid">
+                  <div class="requisitos-item">
+                    <h4>Mínimos</h4>
+                    <ul>
+                      <li>Windows 10 64-bit</li>
+                      <li>Intel i5 o equivalente</li>
+                      <li>8GB RAM</li>
+                      <li>GTX 1060 / RX 580</li>
+                      <li>10GB espacio libre</li>
+                    </ul>
+                  </div>
+                  <div class="requisitos-item">
+                    <h4>Recomendados</h4>
+                    <ul>
+                      <li>Windows 11 64-bit</li>
+                      <li>Intel i7 o Ryzen 7</li>
+                      <li>16GB RAM</li>
+                      <li>RTX 3060 / RX 6700 XT</li>
+                      <li>20GB espacio libre</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categoría Técnicos -->
+          <div class="faq-category" id="tecnicos">
+            <h3 class="faq-category-title">Problemas Técnicos</h3>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                El juego no inicia o se cierra inesperadamente
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>Esto puede deberse a varios factores:</p>
+                <ol>
+                  <li>
+                    Verifica que cumples los requisitos mínimos del sistema
+                  </li>
+                  <li>
+                    Asegúrate de tener los drivers de gráficos actualizados
+                  </li>
+                  <li>Ejecuta el juego como administrador</li>
+                  <li>Desactiva temporalmente tu antivirus</li>
+                  <li>Reinstala los visuales C++ redistribuibles</li>
+                </ol>
+                <p>
+                  Si el problema persiste, contacta a nuestro soporte técnico.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <div class="faq-pregunta">
+                Tengo problemas de rendimiento o FPS bajos
+                <span class="faq-toggle">+</span>
+              </div>
+              <div class="faq-respuesta">
+                <p>Para mejorar el rendimiento:</p>
+                <ul>
+                  <li>Cierra aplicaciones en segundo plano</li>
+                  <li>Actualiza tus drivers de gráficos</li>
+                  <li>Reduce la calidad gráfica en los ajustes del juego</li>
+                  <li>Asegúrate de que tu PC no esté sobrecalentándose</li>
+                  <li>Ejecuta el juego en modo ventana sin bordes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-cta">
+          <div class="cta-content">
+            <h3>¿No encontraste tu respuesta?</h3>
+            <p>
+              Nuestro equipo de soporte está listo para ayudarte personalmente
+            </p>
+            <a href="contacto.html" class="btn btn-primary"
+              >Contactar Soporte</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">SERAKDEP GAMING</div>
+
+          <div class="security-badges">
+            <div class="security-badge">
+              <span class="badge-icon">🛡️</span>
+              <span>Verificados</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon">🔍</span>
+              <span>Analizados</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon">✅</span>
+              <span>Limpios</span>
+            </div>
+            <div class="security-badge">
+              <span class="badge-icon">⚡</span>
+              <span>Optimizados</span>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" class="social-link" title="Síguenos en Facebook">📘</a>
+            <a href="#" class="social-link" title="Síguenos en Twitter">🐦</a>
+            <a href="#" class="social-link" title="Síguenos en Instagram">📷</a>
+            <a href="#" class="social-link" title="Únete a nuestra comunidad"
+              >🎮</a
+            >
+            <a href="#" class="social-link" title="Canal de YouTube">📹</a>
+          </div>
+
+          <div class="footer-links">
+            <a href="inicio.html">Inicio</a>
+            <a href="juegos.html">Juegos Verificados</a>
+            <a href="noticias.html">Noticias</a>
+            <a href="contacto.html">Soporte</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+
+          <div class="footer-bottom">
+            <p>
+              &copy; 2025 SerakDep Gaming. Todos los derechos reservados. |
+              Diseñado para gamers del futuro | Juegos extraídos y verificados
+              libre de virus
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      src="./js/script.js"
+      Conten-Type="text/javascript"
+      charset="UTF-8"
+    ></script>
+    <script src="./js/faq.js"></script>
+  </body>
+</html>
