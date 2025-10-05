@@ -838,7 +838,10 @@ function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
 
-  juegosGrid.innerHTML = "";
+  // CORRECCIÓN: Reemplazar innerHTML con removeChild
+  while (juegosGrid.firstChild) {
+    juegosGrid.removeChild(juegosGrid.firstChild);
+  }
 
   const juegos = [
     {
@@ -1084,7 +1087,10 @@ function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
 
-  memeThumbnails.innerHTML = "";
+  // CORRECCIÓN: Reemplazar innerHTML con removeChild
+  while (memeThumbnails.firstChild) {
+    memeThumbnails.removeChild(memeThumbnails.firstChild);
+  }
 
   memeDatabase.forEach((meme, index) => {
     const thumb = document.createElement("div");
@@ -1436,3 +1442,4 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
