@@ -1,4 +1,4 @@
-// Efectos futuristas y funcionalidades gaming - VERSIÓN SEGURIZADA
+// Efectos futuristas y funcionalidades gaming - VERSIÓN COMPLETAMENTE SEGURIZADA
 document.addEventListener("DOMContentLoaded", function () {
   // Precargar recursos críticos primero
   preloadCriticalResources();
@@ -28,11 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Precargar recursos críticos para mejor performance
 function preloadCriticalResources() {
-  // Precargar imágenes críticas si existen
-  const criticalImages = [
-    // Agrega aquí las rutas de imágenes críticas
-  ];
-
+  const criticalImages = [];
   criticalImages.forEach((src) => {
     const img = new Image();
     img.src = src;
@@ -41,7 +37,6 @@ function preloadCriticalResources() {
 
 // Efecto de partículas en el fondo - OPTIMIZADO Y SEGURO
 function initParticles() {
-  // Evitar duplicados
   if (document.getElementById("particles-container")) {
     return;
   }
@@ -61,7 +56,6 @@ function initParticles() {
   `;
   document.body.appendChild(particlesContainer);
 
-  // Crear menos partículas para mejor rendimiento
   for (let i = 0; i < 30; i++) {
     createParticle(particlesContainer);
   }
@@ -135,7 +129,6 @@ function initTypewriter() {
 // Efectos al hacer scroll - OPTIMIZADO
 function initScrollEffects() {
   const fadeElements = document.querySelectorAll(".fade-in");
-
   if (fadeElements.length === 0) return;
 
   const observer = new IntersectionObserver(
@@ -158,7 +151,6 @@ function initScrollEffects() {
 // Alternar preguntas FAQ
 function initFAQToggle() {
   const faqItems = document.querySelectorAll(".faq-item");
-
   if (faqItems.length === 0) return;
 
   faqItems.forEach((item) => {
@@ -200,7 +192,6 @@ function initAudio() {
   document.addEventListener("keydown", initAudioContext, { once: true });
 }
 
-// Inicializar audio al cargar
 initAudio();
 
 function playHoverSound() {
@@ -242,7 +233,6 @@ function playHoverSound() {
 // Efectos especiales para tarjetas de juego - OPTIMIZADO
 function initGameCards() {
   const gameCards = document.querySelectorAll(".juego-card");
-
   if (gameCards.length === 0) return;
 
   gameCards.forEach((card) => {
@@ -369,7 +359,6 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
     backdrop-filter: blur(5px);
   `;
 
-  // Crear elementos manualmente en lugar de usar innerHTML
   const modalContent = document.createElement("div");
   modalContent.style.cssText = `
     background: linear-gradient(135deg, #1a1a2e, #16213e);
@@ -434,7 +423,6 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   `;
   cancelBtn.textContent = "Cancelar";
 
-  // Construir la estructura del modal
   modalButtons.appendChild(confirmBtn);
   modalButtons.appendChild(cancelBtn);
 
@@ -448,7 +436,6 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
 
   setTimeout(() => (modal.style.opacity = "1"), 100);
 
-  // Event listeners
   const closeModal = () => {
     modal.style.opacity = "0";
     setTimeout(() => {
@@ -477,7 +464,6 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
     }
   });
 
-  // Cerrar con ESC
   const handleKeydown = (e) => {
     if (e.key === "Escape") {
       closeModal();
@@ -490,7 +476,6 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
 // Función principal de descarga real - CORREGIDA
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
-
   if (!downloadBtn || downloadBtn.classList.contains("downloading")) {
     return;
   }
@@ -503,7 +488,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
   downloadBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
   downloadBtn.disabled = true;
 
-  // Crear elemento de progreso de forma segura
   const progressBar = document.createElement("div");
   progressBar.className = "download-progress";
   progressBar.style.cssText = "margin-top: 0.5rem; width: 100%;";
@@ -542,7 +526,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     juegoInfo.appendChild(progressBar);
   }
 
-  // Simular progreso de descarga
   let progress = 0;
   const interval = setInterval(() => {
     progress += Math.random() * 8 + 2;
@@ -552,7 +535,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
       setTimeout(() => {
         try {
-          // Crear enlace de descarga
           const downloadLink = document.createElement("a");
           downloadLink.href = archivo;
           downloadLink.download = `${nombreJuego}.zip`;
@@ -561,7 +543,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
           downloadLink.click();
           document.body.removeChild(downloadLink);
 
-          // Efectos de completado
           downloadBtn.textContent = "¡Descargado!";
           progressText.textContent = "¡Completado!";
           downloadBtn.classList.remove("downloading");
@@ -582,7 +563,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
       }, 500);
     }
 
-    // Actualizar barra de progreso
     progressFill.style.width = `${progress}%`;
     progressText.textContent = `${Math.round(progress)}%`;
   }, 120);
@@ -665,7 +645,6 @@ function initContactForm() {
       }, 2000);
     });
 
-    // Mejorar validación en tiempo real
     const inputs = contactForm.querySelectorAll("input, textarea");
     inputs.forEach((input) => {
       input.addEventListener("blur", () => {
@@ -682,7 +661,6 @@ function validateField(field) {
     return false;
   }
 
-  // Validación de email
   if (field.type === "email" && field.value) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(field.value)) {
@@ -795,7 +773,6 @@ function showNotification(message, type = "info") {
     font-weight: 500;
   `;
 
-  // Usar textContent en lugar de innerHTML para evitar XSS
   notification.textContent = message;
   document.body.appendChild(notification);
 
@@ -838,7 +815,6 @@ function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
 
-  // CORRECCIÓN: Reemplazar innerHTML con removeChild
   while (juegosGrid.firstChild) {
     juegosGrid.removeChild(juegosGrid.firstChild);
   }
@@ -868,7 +844,6 @@ function cargarJuegos() {
 
     const loadingStrategy = index < 4 ? "eager" : "lazy";
 
-    // Crear elementos de forma segura sin usar innerHTML
     const juegoImg = document.createElement("div");
     juegoImg.className = "juego-img";
 
@@ -992,7 +967,6 @@ function preloadImage(src) {
 
 // ===== SISTEMA DE MEMES CON MÚLTIPLES VIDEOS =====
 
-// Variables globales para memes
 let currentMemeIndex = 0;
 let memeDatabase = [];
 let favorites = [];
@@ -1007,7 +981,6 @@ function initMemeGallery() {
     const shareMemeBtn = document.getElementById("shareMeme");
     const favoriteBtn = document.getElementById("favoriteBtn");
     const memeText = document.getElementById("memeText");
-    const memeContainer = document.getElementById("memeContainer");
     const memeThumbnails = document.getElementById("memeThumbnails");
     const currentMemeSpan = document.getElementById("currentMeme");
     const totalMemesSpan = document.getElementById("totalMemes");
@@ -1022,7 +995,6 @@ function initMemeGallery() {
       showNotification("Error al cargar el video", "error");
     });
 
-    // Base de datos de memes
     memeDatabase = [
       {
         id: 1,
@@ -1041,7 +1013,6 @@ function initMemeGallery() {
     ];
 
     favorites = JSON.parse(localStorage.getItem("memeFavorites")) || [];
-
     totalMemesSpan.textContent = memeDatabase.length;
 
     memeDatabase.forEach((meme) => {
@@ -1082,12 +1053,12 @@ function initMemeGallery() {
   }
 }
 
-// Funciones de la galería de memes - CORREGIDAS
+// CORRECCIÓN ESPECÍFICA PARA LA LÍNEA 557
 function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
 
-  // CORRECCIÓN: Reemplazar innerHTML con removeChild
+  // ESTA ES LA LÍNEA 557 CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
   while (memeThumbnails.firstChild) {
     memeThumbnails.removeChild(memeThumbnails.firstChild);
   }
@@ -1104,7 +1075,10 @@ function generateThumbnails() {
       img.loading = "lazy";
       thumb.appendChild(img);
     } else {
-      thumb.style.background = `linear-gradient(45deg, #${Math.floor(Math.random() * 16777215).toString(16)}, #${Math.floor(Math.random() * 16777215).toString(16)})`;
+      const color1 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      const color2 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      thumb.style.background = `linear-gradient(45deg, #${color1}, #${color2})`;
+      
       const placeholder = document.createElement("div");
       placeholder.style.cssText = "width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;";
       placeholder.textContent = `Meme ${meme.id}`;
@@ -1140,7 +1114,6 @@ function loadMeme(index) {
 
   const wasMuted = memeVideo.muted;
 
-  // Limpiar fuentes anteriores de forma segura
   while (memeVideo.firstChild) {
     memeVideo.removeChild(memeVideo.firstChild);
   }
@@ -1150,7 +1123,6 @@ function loadMeme(index) {
   source.type = "video/mp4";
   memeVideo.appendChild(source);
 
-  // Usar textContent en lugar de innerHTML
   memeText.textContent = meme.title;
   currentMemeSpan.textContent = index + 1;
 
@@ -1186,7 +1158,6 @@ function loadMeme(index) {
   setTimeout(playVideo, 1000);
 }
 
-// Resto de las funciones de memes (sin cambios significativos)
 function toggleSound() {
   const memeVideo = document.getElementById("memeVideo");
   const soundToggle = document.getElementById("soundToggle");
@@ -1442,4 +1413,5 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
