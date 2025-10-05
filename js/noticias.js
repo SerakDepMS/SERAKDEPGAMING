@@ -1,4 +1,4 @@
-// ===== SISTEMA MEJORADO DE NOTICIAS - VERSIÓN CORREGIDA =====
+// ===== SISTEMA MEJORADO DE NOTICIAS - VERSIÓN CORREGIDA Y SEGURA =====
 
 document.addEventListener("DOMContentLoaded", function () {
   // Elementos del DOM - SELECCIÓN SEGURA
@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const noticiaCards = document.querySelectorAll(".noticia-card");
   const paginacionBtns = document.querySelectorAll(".paginacion-btn");
   const newsletterForm = document.querySelector(".newsletter-form");
-  const searchInput = document.getElementById("search-noticias"); // Usando ID
-  const noticiasGrid = document.querySelector(".noticias-grid"); // Cambiado de container a grid
+  const searchInput = document.getElementById("search-noticias");
+  const noticiasGrid = document.querySelector(".noticias-grid");
 
   // Verificar que los elementos esenciales existen
   if (!noticiasGrid) {
@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     paginaActual: 1,
     noticiasPorPagina: 6,
     busquedaActual: "",
-    noticiasFavoritas:
-      JSON.parse(localStorage.getItem("noticiasFavoritas")) || [],
+    noticiasFavoritas: JSON.parse(localStorage.getItem("noticiasFavoritas")) || [],
   };
 
   // Inicializar la sección de noticias
@@ -83,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.setAttribute("aria-pressed", "true");
 
         estadoNoticias.categoriaActiva = this.getAttribute("data-categoria");
-        estadoNoticias.paginaActual = 1; // Resetear a primera página
+        estadoNoticias.paginaActual = 1;
 
         aplicarFiltros();
         actualizarPaginacion();
@@ -109,10 +108,8 @@ document.addEventListener("DOMContentLoaded", function () {
     noticiaCards.forEach((card, index) => {
       const categoriaCard = card.getAttribute("data-categoria");
       const textoCard = card.textContent.toLowerCase();
-      const tituloCard =
-        card.querySelector(".noticia-titulo")?.textContent.toLowerCase() || "";
-      const resumenCard =
-        card.querySelector(".noticia-resumen")?.textContent.toLowerCase() || "";
+      const tituloCard = card.querySelector(".noticia-titulo")?.textContent.toLowerCase() || "";
+      const resumenCard = card.querySelector(".noticia-resumen")?.textContent.toLowerCase() || "";
       const busqueda = estadoNoticias.busquedaActual.toLowerCase();
 
       const coincideCategoria =
@@ -132,16 +129,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Aplicar paginación a las noticias filtradas
-    const inicio =
-      (estadoNoticias.paginaActual - 1) * estadoNoticias.noticiasPorPagina;
+    const inicio = (estadoNoticias.paginaActual - 1) * estadoNoticias.noticiasPorPagina;
     const fin = estadoNoticias.paginaActual * estadoNoticias.noticiasPorPagina;
 
     noticiaCards.forEach((card, index) => {
       const posicion = noticiasFiltradas.indexOf(card);
-      const mostrar =
-        posicion >= inicio &&
-        posicion < fin &&
-        noticiasFiltradas.includes(card);
+      const mostrar = posicion >= inicio && posicion < fin && noticiasFiltradas.includes(card);
 
       if (mostrar) {
         card.style.display = "block";
@@ -193,9 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Anunciar resultados de búsqueda
         if (estadoNoticias.busquedaActual) {
-          const resultados = document.querySelectorAll(
-            '.noticia-card[style="display: block"]'
-          ).length;
+          const resultados = document.querySelectorAll('.noticia-card[style="display: block"]').length;
           anunciarCambio(
             `${resultados} resultados encontrados para "${estadoNoticias.busquedaActual}"`
           );
@@ -258,27 +249,20 @@ document.addEventListener("DOMContentLoaded", function () {
   function actualizarEstadoFavorito(boton, idNoticia) {
     if (estadoNoticias.noticiasFavoritas.includes(idNoticia)) {
       boton.classList.add("activo");
-      boton.innerHTML = "★";
-      boton.setAttribute(
-        "aria-label",
-        `Quitar noticia ${idNoticia} de favoritos`
-      );
+      boton.textContent = "★";
+      boton.setAttribute("aria-label", `Quitar noticia ${idNoticia} de favoritos`);
       boton.setAttribute("title", "Quitar de favoritos");
     } else {
       boton.classList.remove("activo");
-      boton.innerHTML = "☆";
-      boton.setAttribute(
-        "aria-label",
-        `Añadir noticia ${idNoticia} a favoritos`
-      );
+      boton.textContent = "☆";
+      boton.setAttribute("aria-label", `Añadir noticia ${idNoticia} a favoritos`);
       boton.setAttribute("title", "Añadir a favoritos");
     }
   }
 
   function toggleFavorito(idNoticia, boton, card) {
     const index = estadoNoticias.noticiasFavoritas.indexOf(idNoticia);
-    const titulo =
-      card.querySelector(".noticia-titulo")?.textContent || "Noticia";
+    const titulo = card.querySelector(".noticia-titulo")?.textContent || "Noticia";
 
     if (index > -1) {
       // Quitar de favoritos
@@ -362,10 +346,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function actualizarBotonesPaginacion() {
     paginacionBtns.forEach((btn) => {
       btn.classList.remove("active");
-      if (
-        !btn.classList.contains("siguiente") &&
-        !btn.classList.contains("anterior")
-      ) {
+      if (!btn.classList.contains("siguiente") && !btn.classList.contains("anterior")) {
         const pagina = parseInt(btn.textContent);
         if (pagina === estadoNoticias.paginaActual) {
           btn.classList.add("active");
@@ -383,9 +364,7 @@ document.addEventListener("DOMContentLoaded", function () {
       (card) => card.style.display !== "none" && card.style.display !== ""
     ).length;
 
-    const totalPaginas = Math.ceil(
-      noticiasVisibles / estadoNoticias.noticiasPorPagina
-    );
+    const totalPaginas = Math.ceil(noticiasVisibles / estadoNoticias.noticiasPorPagina);
 
     // Actualizar estado de botones
     const btnAnterior = document.querySelector(".paginacion-btn.anterior");
@@ -393,24 +372,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (btnAnterior) {
       btnAnterior.disabled = estadoNoticias.paginaActual === 1;
-      btnAnterior.setAttribute(
-        "aria-disabled",
-        estadoNoticias.paginaActual === 1
-      );
+      btnAnterior.setAttribute("aria-disabled", estadoNoticias.paginaActual === 1);
     }
 
     if (btnSiguiente) {
       btnSiguiente.disabled = estadoNoticias.paginaActual === totalPaginas;
-      btnSiguiente.setAttribute(
-        "aria-disabled",
-        estadoNoticias.paginaActual === totalPaginas
-      );
+      btnSiguiente.setAttribute("aria-disabled", estadoNoticias.paginaActual === totalPaginas);
     }
 
     // Actualizar contadores en el DOM
     const contadorPagina = document.querySelector(".contador-pagina");
     if (contadorPagina) {
-      contadorPagina.innerHTML = `Página <span id="pagina-actual">${estadoNoticias.paginaActual}</span> de <span id="paginas-total">${totalPaginas}</span>`;
+      // Crear elementos de forma segura
+      contadorPagina.textContent = '';
+      contadorPagina.appendChild(document.createTextNode('Página '));
+      
+      const paginaActual = document.createElement('span');
+      paginaActual.id = 'pagina-actual';
+      paginaActual.textContent = estadoNoticias.paginaActual;
+      contadorPagina.appendChild(paginaActual);
+      
+      contadorPagina.appendChild(document.createTextNode(' de '));
+      
+      const paginasTotal = document.createElement('span');
+      paginasTotal.id = 'paginas-total';
+      paginasTotal.textContent = totalPaginas;
+      contadorPagina.appendChild(paginasTotal);
     }
 
     // Actualizar contador de noticias
@@ -419,8 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (contadorActual && contadorTotal) {
       const noticiasMostradas = Math.min(
-        noticiasVisibles -
-          (estadoNoticias.paginaActual - 1) * estadoNoticias.noticiasPorPagina,
+        noticiasVisibles - (estadoNoticias.paginaActual - 1) * estadoNoticias.noticiasPorPagina,
         estadoNoticias.noticiasPorPagina
       );
       contadorActual.textContent = noticiasMostradas;
@@ -505,21 +491,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const contador = document.querySelector(".contador-noticias");
     if (!contador) return;
 
-    if (
-      estadoNoticias.categoriaActiva === "todas" &&
-      estadoNoticias.busquedaActual === ""
-    ) {
+    if (estadoNoticias.categoriaActiva === "todas" && estadoNoticias.busquedaActual === "") {
       contador.textContent = `Mostrando ${noticiasVisibles} de ${totalNoticias} noticias`;
     } else {
-      let texto = `Mostrando ${noticiasVisibles} noticia${
-        noticiasVisibles !== 1 ? "s" : ""
-      }`;
+      let texto = `Mostrando ${noticiasVisibles} noticia${noticiasVisibles !== 1 ? "s" : ""}`;
 
       if (estadoNoticias.categoriaActiva !== "todas") {
-        const categoriaTexto =
-          document.querySelector(
-            `.filtro-btn[data-categoria="${estadoNoticias.categoriaActiva}"]`
-          )?.textContent || estadoNoticias.categoriaActiva;
+        const categoriaTexto = document.querySelector(
+          `.filtro-btn[data-categoria="${estadoNoticias.categoriaActiva}"]`
+        )?.textContent || estadoNoticias.categoriaActiva;
         texto += ` en ${categoriaTexto.trim()}`;
       }
 
@@ -540,17 +520,30 @@ document.addEventListener("DOMContentLoaded", function () {
         mensaje.className = "sin-resultados";
         mensaje.setAttribute("role", "status");
         mensaje.setAttribute("aria-live", "polite");
-        mensaje.innerHTML = `
-          <div class="sin-resultados-content">
-            <h3>No se encontraron noticias</h3>
-            <p>Intenta con otros términos de búsqueda o cambia de categoría</p>
-            <button class="btn btn-primary reset-filtros" type="button">Mostrar todas las noticias</button>
-          </div>
-        `;
+        
+        // Crear contenido de forma segura
+        const contenido = document.createElement("div");
+        contenido.className = "sin-resultados-content";
+        
+        const titulo = document.createElement("h3");
+        titulo.textContent = "No se encontraron noticias";
+        
+        const parrafo = document.createElement("p");
+        parrafo.textContent = "Intenta con otros términos de búsqueda o cambia de categoría";
+        
+        const resetBtn = document.createElement("button");
+        resetBtn.className = "btn btn-primary reset-filtros";
+        resetBtn.type = "button";
+        resetBtn.textContent = "Mostrar todas las noticias";
+        
+        contenido.appendChild(titulo);
+        contenido.appendChild(parrafo);
+        contenido.appendChild(resetBtn);
+        mensaje.appendChild(contenido);
+        
         noticiasGrid.parentNode.insertBefore(mensaje, noticiasGrid.nextSibling);
 
         // Evento para el botón de reset
-        const resetBtn = mensaje.querySelector(".reset-filtros");
         resetBtn.addEventListener("click", function (e) {
           e.preventDefault();
           resetearFiltros();
@@ -573,9 +566,7 @@ document.addEventListener("DOMContentLoaded", function () {
       b.setAttribute("aria-pressed", "false");
     });
 
-    const btnTodas = document.querySelector(
-      '.filtro-btn[data-categoria="todas"]'
-    );
+    const btnTodas = document.querySelector('.filtro-btn[data-categoria="todas"]');
     if (btnTodas) {
       btnTodas.classList.add("active");
       btnTodas.setAttribute("aria-pressed", "true");
@@ -590,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
     anunciarCambio("Filtros reiniciados. Mostrando todas las noticias.");
   }
 
-  // Sistema de notificaciones mejorado
+  // SISTEMA DE NOTIFICACIONES MEJORADO Y SEGURO
   function showNotification(mensaje, tipo = "info") {
     // Eliminar notificaciones existentes
     const notificacionesExistentes = document.querySelectorAll(".notificacion");
@@ -602,12 +593,24 @@ document.addEventListener("DOMContentLoaded", function () {
     notificacion.className = `notificacion notificacion-${tipo}`;
     notificacion.setAttribute("role", "status");
     notificacion.setAttribute("aria-live", "polite");
-    notificacion.innerHTML = `
-      <div class="notificacion-content">
-        <span class="notificacion-mensaje">${mensaje}</span>
-        <button class="notificacion-cerrar" aria-label="Cerrar notificación">&times;</button>
-      </div>
-    `;
+    
+    // CREACIÓN SEGURA DEL CONTENIDO - SIN innerHTML
+    const notificacionContent = document.createElement("div");
+    notificacionContent.className = "notificacion-content";
+    
+    const mensajeSpan = document.createElement("span");
+    mensajeSpan.className = "notificacion-mensaje";
+    mensajeSpan.textContent = mensaje; // Usar textContent en lugar de innerHTML
+    
+    const cerrarBtn = document.createElement("button");
+    cerrarBtn.className = "notificacion-cerrar";
+    cerrarBtn.setAttribute("aria-label", "Cerrar notificación");
+    cerrarBtn.textContent = "×"; // Usar textContent en lugar de innerHTML
+    
+    // Ensamblar la estructura de manera segura
+    notificacionContent.appendChild(mensajeSpan);
+    notificacionContent.appendChild(cerrarBtn);
+    notificacion.appendChild(notificacionContent);
 
     document.body.appendChild(notificacion);
 
@@ -617,7 +620,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 10);
 
     // Evento para cerrar
-    const cerrarBtn = notificacion.querySelector(".notificacion-cerrar");
     cerrarBtn.addEventListener("click", () => {
       cerrarNotificacion(notificacion);
     });
@@ -669,102 +671,3 @@ document.addEventListener("DOMContentLoaded", function () {
     actualizarPaginacion,
   };
 });
-
-// CSS dinámico para notificaciones (agregar si no existe en tu CSS)
-const notificacionesCSS = `
-.notificacion {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(16, 16, 40, 0.95);
-  color: white;
-  padding: 15px 20px;
-  border-radius: 5px;
-  border-left: 4px solid #00f3ff;
-  box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
-  z-index: 10000;
-  max-width: 300px;
-  backdrop-filter: blur(10px);
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  font-family: 'Rajdhani', sans-serif;
-}
-
-.notificacion.mostrar {
-  transform: translateX(0);
-}
-
-.notificacion-success {
-  border-left-color: #00ff9d;
-  box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
-}
-
-.notificacion-error {
-  border-left-color: #ff00ff;
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-}
-
-.notificacion-info {
-  border-left-color: #00f3ff;
-  box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
-}
-
-.notificacion-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.notificacion-cerrar {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 10px;
-}
-
-.notificacion-cerrar:hover {
-  color: #00f3ff;
-}
-
-.sin-resultados {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #ccc;
-}
-
-.sin-resultados h3 {
-  color: #00f3ff;
-  margin-bottom: 1rem;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.favorito-btn.activo {
-  color: #ffd700;
-}
-
-.noticias-grid.buscando .noticia-card:not([style*="display: block"]) {
-  opacity: 0.3;
-}
-`;
-
-// Inyectar CSS si no existe
-if (!document.querySelector("#notificaciones-css")) {
-  const style = document.createElement("style");
-  style.id = "notificaciones-css";
-  style.textContent = notificacionesCSS;
-  document.head.appendChild(style);
-}
