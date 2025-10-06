@@ -724,51 +724,7 @@ function handleDownloadError(card, errorMessage) {
   }, 5000);
 }
 
-// Manejo del formulario de contacto
-function initContactForm() {
-  const contactForm = document.querySelector("form");
-  if (contactForm && !contactForm.classList.contains("form-initialized")) {
-    contactForm.classList.add("form-initialized");
 
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      if (!validateForm(this)) {
-        return;
-      }
-
-      const submitBtn = this.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      const originalBackground = submitBtn.style.background;
-
-      submitBtn.textContent = "Enviando...";
-      submitBtn.disabled = true;
-
-      setTimeout(() => {
-        submitBtn.textContent = "¡Mensaje Enviado!";
-        submitBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
-
-        showNotification("Mensaje enviado con éxito. Te contactaremos pronto.", "success");
-
-        createConfettiEffect(20);
-
-        setTimeout(() => {
-          submitBtn.textContent = originalText;
-          submitBtn.disabled = false;
-          submitBtn.style.background = originalBackground;
-          contactForm.reset();
-        }, 3000);
-      }, 2000);
-    });
-
-    const inputs = contactForm.querySelectorAll("input, textarea");
-    inputs.forEach((input) => {
-      input.addEventListener("blur", () => {
-        validateField(input);
-      });
-    });
-  }
-}
 
 // Validación de campo individual
 function validateField(field) {
