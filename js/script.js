@@ -42,34 +42,52 @@ function isValidHttpUrl(string) {
     try {
         // Si es una ruta relativa, considerar segura
         if (string.startsWith('/') || string.startsWith('./') || string.startsWith('../')) {
-            return !/[<>"']/.test(string); // Validar que no tenga caracteres peligrosos
+            return !/[<>"']/.test(string);
         }
         
         const url = new URL(string);
         return url.protocol === 'http:' || url.protocol === 'https:';
     } catch (_) {
-        // Si es una ruta relativa sin ./ o ../, también es segura
         return !string.includes('://') && !/[<>"']/.test(string);
     }
 }
 
-// Función para sanitizar URLs - NUEVA IMPLEMENTACIÓN
+// Función para sanitizar URLs - IMPLEMENTACIÓN SEGURA
 function sanitizeUrl(url) {
     if (!url || typeof url !== 'string') return '#';
     
-    // Si ya es una URL segura, devolverla
-    if (isValidHttpUrl(url)) {
-        return url;
+    const cleanUrl = url.trim().replace(/[<>"']/g, '');
+    
+    if (isValidHttpUrl(cleanUrl)) {
+        return cleanUrl;
     }
     
-    // Si es un fragmento o vacío, devolver #
-    if (url === '#' || url === '' || url === 'javascript:void(0)') {
+    if (cleanUrl === '#' || cleanUrl === '' || cleanUrl.startsWith('javascript:')) {
         return '#';
     }
     
-    // Para otros casos no seguros, devolver #
     console.warn('URL no segura detectada y bloqueada:', url);
     return '#';
+}
+
+// Función para validar protocolo SIN crear elementos DOM
+function getUrlProtocol(url) {
+    if (!url || url === '#') return '';
+    
+    try {
+        if (url.includes('://')) {
+            const urlObj = new URL(url);
+            return urlObj.protocol;
+        }
+        
+        if (url.startsWith('/') || url.startsWith('./') || url.startsWith('../')) {
+            return 'relative:';
+        }
+        
+        return '';
+    } catch (e) {
+        return '';
+    }
 }
 
 // Efecto de partículas en el fondo - OPTIMIZADO Y SEGURO
@@ -525,7 +543,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     .trim()
     .substring(0, 50) || 'juego';
 
-  // VALIDACIÓN SEGURA PARA LA URL - CORRECCIÓN DEFINITIVA
+  // VALIDACIÓN SEGURA PARA LA URL - SIN ELEMENTOS TEMPORALES
   let safeArchivo = "#";
   if (archivo && typeof archivo === 'string') {
     safeArchivo = sanitizeUrl(archivo);
@@ -586,26 +604,17 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
       setTimeout(() => {
         try {
-          const downloadLink = document.createElement("a");
-          
           // SOLUCIÓN DEFINITIVA - SIN VULNERABILIDADES
           if (safeArchivo && safeArchivo !== "#") {
-            // Capa 1: Usar setAttribute con encodeURI
-            downloadLink.setAttribute('href', encodeURI(safeArchivo));
             
-            // Capa 2: Validar que el enlace sea seguro antes de usarlo - CORREGIDO
-            const tempLink = document.createElement('a');
+            // VALIDACIÓN SEGURA SIN CREAR ELEMENTOS DOM TEMPORALES
+            const urlProtocol = getUrlProtocol(safeArchivo);
             
-            // USAR LA FUNCIÓN SANITIZE URL EN LUGAR DE ASIGNACIÓN DIRECTA
-            const validatedUrl = sanitizeUrl(safeArchivo);
-            tempLink.setAttribute('href', validatedUrl);
-            
-            // Validación segura del protocolo
-            if (tempLink.protocol === 'http:' || 
-                tempLink.protocol === 'https:' || 
-                tempLink.protocol === ':' || // Rutas relativas
-                !tempLink.protocol) {
+            // Validar protocolos permitidos
+            if (urlProtocol === 'http:' || urlProtocol === 'https:' || urlProtocol === 'relative:') {
               
+              const downloadLink = document.createElement("a");
+              downloadLink.setAttribute('href', encodeURI(safeArchivo));
               downloadLink.download = `${safeNombreJuego}.zip`;
               downloadLink.style.display = "none";
               downloadLink.setAttribute("rel", "noopener noreferrer");
@@ -625,7 +634,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
               showNotification(`${safeGameName} se ha descargado correctamente`, "success");
             } else {
-              throw new Error('Protocolo no permitido: ' + tempLink.protocol);
+              throw new Error('Protocolo no permitido: ' + urlProtocol);
             }
           } else {
             throw new Error('URL no válida');
@@ -990,7 +999,6 @@ function cargarJuegos() {
 
 // SVG placeholder mejorado - VERSIÓN SEGURA
 function getPlaceholderSVG() {
-  // Crear SVG de forma segura sin innerHTML
   const svgString = `
     <svg width="400" height="225" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -1144,7 +1152,6 @@ function generateThumbnails() {
   const memeThumbnails = document.getElementById("memeThumbnails");
   if (!memeThumbnails) return;
 
-  // Limpiar thumbnails de forma segura
   while (memeThumbnails.firstChild) {
     memeThumbnails.removeChild(memeThumbnails.firstChild);
   }
@@ -1161,7 +1168,6 @@ function generateThumbnails() {
       img.loading = "lazy";
       thumb.appendChild(img);
     } else {
-      // Crear placeholder de forma segura sin innerHTML
       const color1 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
       const color2 = Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
       thumb.style.background = `linear-gradient(45deg, #${color1}, #${color2})`;
@@ -1200,7 +1206,6 @@ function loadMeme(index) {
 
   const wasMuted = memeVideo.muted;
 
-  // Limpiar video de forma segura
   while (memeVideo.firstChild) {
     memeVideo.removeChild(memeVideo.firstChild);
   }
@@ -1500,6 +1505,7 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
 
 
