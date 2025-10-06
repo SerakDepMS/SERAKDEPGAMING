@@ -14,11 +14,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Función mejorada para mostrar notificaciones secuenciales
   function showSequentialNotifications(messages, delay = 5000) {
-    messages.forEach((message, index) => {
-      setTimeout(() => {
+    let currentIndex = 0;
+    
+    function showNextNotification() {
+      if (currentIndex < messages.length) {
+        const message = messages[currentIndex];
         showNotification(message.text, message.type);
-      }, index * delay);
-    });
+        currentIndex++;
+        setTimeout(showNextNotification, delay);
+      }
+    }
+    
+    showNextNotification();
   }
 
   if (contactoForm) {
@@ -122,7 +129,8 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-          }, 2000);
+          }, (successMessages.length * 5000) + 2000); // Esperar que terminen todas las notificaciones + 2 segundos extra
+          
           contactoForm.reset();
         }, function(error) {
           console.log('❌ FAILED...', error);
@@ -153,13 +161,13 @@ document.addEventListener("DOMContentLoaded", function () {
             
             window.open(gmailUrl, '_blank');
             showNotification("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
-          }, 15000); // 15 segundos = 3 notificaciones × 5 segundos
+          }, (errorMessages.length * 5000) + 2000); // Esperar que terminen todas las notificaciones + 2 segundos extra
           
           submitBtn.textContent = "❌ ERROR";
           setTimeout(() => {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-          }, 3000);
+          }, (errorMessages.length * 5000) + 3000);
         });
     });
   }
