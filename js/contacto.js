@@ -12,29 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
-  // Sistema de notificaciones mejorado con cola
-  let notificationQueue = [];
-  let isShowingNotification = false;
-
+  // Función de notificación simple y confiable
   function showNotificationFixed(message, type = "info") {
-    // Agregar a la cola
-    notificationQueue.push({ message, type });
-    
-    // Si no se está mostrando ninguna notificación, mostrar la primera
-    if (!isShowingNotification) {
-      processNotificationQueue();
-    }
-  }
-
-  function processNotificationQueue() {
-    if (notificationQueue.length === 0) {
-      isShowingNotification = false;
-      return;
-    }
-
-    isShowingNotification = true;
-    const { message, type } = notificationQueue.shift();
-
     // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.textContent = message;
@@ -84,28 +63,18 @@ document.addEventListener("DOMContentLoaded", function () {
         if (notification.parentNode) {
           notification.parentNode.removeChild(notification);
         }
-        // Procesar siguiente notificación después de que esta desaparezca
-        setTimeout(() => {
-          processNotificationQueue();
-        }, 100); // Pequeño delay entre notificaciones
-      }, 500); // 0.5 segundos para la animación de fade out
-    }, 5000); // 5 SEGUNDOS EXACTOS de visibilidad
+      }, 500);
+    }, 5000);
   }
 
-  // Función para mostrar notificaciones secuenciales
+  // Función para mostrar notificaciones secuenciales SIMPLIFICADA
   function showSequentialNotifications(messages) {
-    // Limpiar cola existente
-    notificationQueue = [];
-    
-    // Agregar todas las notificaciones a la cola
-    messages.forEach(message => {
-      notificationQueue.push(message);
+    messages.forEach((message, index) => {
+      // Cada notificación se muestra 5 segundos después de la anterior
+      setTimeout(() => {
+        showNotificationFixed(message.text, message.type);
+      }, index * 5000);
     });
-    
-    // Iniciar el proceso si no está activo
-    if (!isShowingNotification) {
-      processNotificationQueue();
-    }
   }
 
   if (contactoForm) {
@@ -183,9 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function(response) {
           console.log('✅ SUCCESS!', response.status, response.text);
           
-          // Calcular tiempo total exacto (4 notificaciones × 5.6 segundos cada una)
-          const totalNotificationTime = 4 * 5600; // 5600ms por notificación (5000ms visible + 600ms animación)
-          
           // Notificaciones secuenciales en caso de éxito
           const successMessages = [
             {
@@ -216,14 +182,11 @@ document.addEventListener("DOMContentLoaded", function () {
               submitBtn.textContent = originalText;
               submitBtn.disabled = false;
             }, 2000);
-          }, totalNotificationTime);
+          }, successMessages.length * 5000);
           
           contactoForm.reset();
         }, function(error) {
           console.log('❌ FAILED...', error);
-          
-          // Calcular tiempo total exacto (3 notificaciones × 5.6 segundos cada una)
-          const totalNotificationTime = 3 * 5600; // 5600ms por notificación
           
           // Notificaciones secuenciales en caso de error
           const errorMessages = [
@@ -252,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             window.open(gmailUrl, '_blank');
             showNotificationFixed("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
-          }, totalNotificationTime);
+          }, errorMessages.length * 5000);
           
           // Actualizar botón después de que terminen TODAS las notificaciones
           setTimeout(() => {
@@ -261,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
               submitBtn.textContent = originalText;
               submitBtn.disabled = false;
             }, 2000);
-          }, totalNotificationTime);
+          }, errorMessages.length * 5000);
         });
     });
   }
