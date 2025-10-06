@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inicializar EmailJS con tu Public Key
   emailjs.init("KZquan0PhqC35uDYw");
 
+  // Función para generar ID de sesión seguro
+  function generateSecureSessionId(length = 9) {
+    const array = new Uint32Array(length);
+    window.crypto.getRandomValues(array);
+    return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
+  }
+
   if (contactoForm) {
     contactoForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -31,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const now = new Date();
       const timestamp = now.toISOString();
       const submissionId = 'SRK' + Date.now();
-      const sessionId = 'SESS_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      const sessionId = "SESS_" + generateSecureSessionId(); // Usando la función segura
 
       // Determinar prioridad basada en el asunto
       const priorityMap = {
