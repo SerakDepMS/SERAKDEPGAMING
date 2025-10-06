@@ -12,6 +12,15 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
+  // Función mejorada para mostrar notificaciones secuenciales
+  function showSequentialNotifications(messages, delay = 5000) {
+    messages.forEach((message, index) => {
+      setTimeout(() => {
+        showNotification(message.text, message.type);
+      }, index * delay);
+    });
+  }
+
   if (contactoForm) {
     contactoForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -38,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const now = new Date();
       const timestamp = now.toISOString();
       const submissionId = 'SRK' + Date.now();
-      const sessionId = "SESS_" + generateSecureSessionId(); // Usando la función segura
+      const sessionId = "SESS_" + generateSecureSessionId();
 
       // Determinar prioridad basada en el asunto
       const priorityMap = {
@@ -65,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
         subject: asuntoTexto,
         message: mensaje,
         to_email: "soporte@serakdep.com",
-        // Nuevos parámetros para la plantilla estilo programación
         submission_id: submissionId,
         priority_level: priorityMap[asunto] || 'MEDIUM',
         assigned_team: teamMap[asunto] || 'GENERAL',
@@ -87,10 +95,29 @@ document.addEventListener("DOMContentLoaded", function () {
       emailjs.send('service_3dlso3n', 'template_bso642c', templateParams)
         .then(function(response) {
           console.log('✅ SUCCESS!', response.status, response.text);
-          showNotification(
-            "🎉 Mensaje enviado correctamente. ID: " + submissionId,
-            "success"
-          );
+          
+          // Notificaciones secuenciales en caso de éxito
+          const successMessages = [
+            {
+              text: "✅ Mensaje procesado exitosamente",
+              type: "success"
+            },
+            {
+              text: "📨 Correo enviado al equipo de soporte",
+              type: "success"
+            },
+            {
+              text: "🎉 ID de ticket: " + submissionId,
+              type: "success"
+            },
+            {
+              text: "⏱️ Respuesta esperada en 24-48 horas",
+              type: "info"
+            }
+          ];
+          
+          showSequentialNotifications(successMessages, 5000);
+          
           submitBtn.textContent = "✅ ENVIADO";
           setTimeout(() => {
             submitBtn.textContent = originalText;
@@ -99,10 +126,35 @@ document.addEventListener("DOMContentLoaded", function () {
           contactoForm.reset();
         }, function(error) {
           console.log('❌ FAILED...', error);
-          showNotification(
-            "💥 Error en el sistema. Por favor, intenta nuevamente.",
-            "error"
-          );
+          
+          // Notificaciones secuenciales en caso de error
+          const errorMessages = [
+            {
+              text: "💥 Error en el sistema de envío",
+              type: "error"
+            },
+            {
+              text: "🔄 Redirigiendo a método alternativo",
+              type: "warning"
+            },
+            {
+              text: "📧 Abriendo cliente de correo alternativo",
+              type: "info"
+            }
+          ];
+          
+          showSequentialNotifications(errorMessages, 5000);
+          
+          // Fallback a Gmail después de las notificaciones
+          setTimeout(() => {
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
+              `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
+            )}`;
+            
+            window.open(gmailUrl, '_blank');
+            showNotification("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
+          }, 15000); // 15 segundos = 3 notificaciones × 5 segundos
+          
           submitBtn.textContent = "❌ ERROR";
           setTimeout(() => {
             submitBtn.textContent = originalText;
