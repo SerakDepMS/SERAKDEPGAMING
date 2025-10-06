@@ -67,14 +67,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 5000);
   }
 
-  // Función para mostrar notificaciones secuenciales SIMPLIFICADA
+  // Versión ULTRA-SIMPLE para notificaciones secuenciales
   function showSequentialNotifications(messages) {
-    messages.forEach((message, index) => {
-      // Cada notificación se muestra 5 segundos después de la anterior
+    // Mostrar primera notificación inmediatamente
+    showNotificationFixed(messages[0].text, messages[0].type);
+    
+    // Mostrar las siguientes con delay específico
+    if (messages.length > 1) {
       setTimeout(() => {
-        showNotificationFixed(message.text, message.type);
-      }, index * 5000);
-    });
+        showNotificationFixed(messages[1].text, messages[1].type);
+      }, 5000);
+    }
+    
+    if (messages.length > 2) {
+      setTimeout(() => {
+        showNotificationFixed(messages[2].text, messages[2].type);
+      }, 10000);
+    }
+    
+    if (messages.length > 3) {
+      setTimeout(() => {
+        showNotificationFixed(messages[3].text, messages[3].type);
+      }, 15000);
+    }
   }
 
   if (contactoForm) {
@@ -152,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function(response) {
           console.log('✅ SUCCESS!', response.status, response.text);
           
-          // Notificaciones secuenciales en caso de éxito
+          // Notificaciones secuenciales en caso de éxito (4 notificaciones)
           const successMessages = [
             {
               text: "✅ Mensaje procesado exitosamente",
@@ -175,20 +190,20 @@ document.addEventListener("DOMContentLoaded", function () {
           // Iniciar notificaciones secuenciales
           showSequentialNotifications(successMessages);
           
-          // Actualizar botón después de que terminen TODAS las notificaciones
+          // Actualizar botón después de 20 segundos (4 notificaciones × 5 segundos)
           setTimeout(() => {
             submitBtn.textContent = "✅ ENVIADO";
             setTimeout(() => {
               submitBtn.textContent = originalText;
               submitBtn.disabled = false;
             }, 2000);
-          }, successMessages.length * 5000);
+          }, 20000);
           
           contactoForm.reset();
         }, function(error) {
           console.log('❌ FAILED...', error);
           
-          // Notificaciones secuenciales en caso de error
+          // Notificaciones secuenciales en caso de error (3 notificaciones)
           const errorMessages = [
             {
               text: "💥 Error en el sistema de envío",
@@ -207,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Iniciar notificaciones secuenciales
           showSequentialNotifications(errorMessages);
           
-          // Fallback a Gmail después de que terminen TODAS las notificaciones
+          // Fallback a Gmail después de 15 segundos (3 notificaciones × 5 segundos)
           setTimeout(() => {
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
               `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
@@ -215,16 +230,16 @@ document.addEventListener("DOMContentLoaded", function () {
             
             window.open(gmailUrl, '_blank');
             showNotificationFixed("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
-          }, errorMessages.length * 5000);
+          }, 15000);
           
-          // Actualizar botón después de que terminen TODAS las notificaciones
+          // Actualizar botón después de 15 segundos
           setTimeout(() => {
             submitBtn.textContent = "❌ ERROR";
             setTimeout(() => {
               submitBtn.textContent = originalText;
               submitBtn.disabled = false;
             }, 2000);
-          }, errorMessages.length * 5000);
+          }, 15000);
         });
     });
   }
