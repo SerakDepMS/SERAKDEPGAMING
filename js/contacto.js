@@ -12,143 +12,22 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
-  // Función de notificación simple y confiable
-  function showNotificationFixed(message, type = "info") {
-    // Crear elemento de notificación
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      z-index: 10000;
-      opacity: 1;
-      transition: opacity 0.5s ease-in-out;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      max-width: 400px;
-      word-wrap: break-word;
-    `;
-
-    // Colores según el tipo
-    switch (type) {
-      case 'success':
-        notification.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-        break;
-      case 'error':
-        notification.style.background = 'linear-gradient(135deg, #f44336, #da190b)';
-        break;
-      case 'warning':
-        notification.style.background = 'linear-gradient(135deg, #ff9800, #e68900)';
-        break;
-      case 'info':
-        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
-        break;
-      default:
-        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
-    }
-
-    // Añadir al DOM
-    document.body.appendChild(notification);
-
-    // Eliminar después de EXACTAMENTE 5 segundos
-    setTimeout(() => {
-      notification.style.opacity = '0';
-      setTimeout(() => {
-        if (notification.parentNode) {
-          notification.parentNode.removeChild(notification);
-        }
-      }, 500);
-    }, 5000);
-  }
-
-  // Variable para controlar si ya se está mostrando una notificación
-  let isNotificationActive = false;
-
-  // Función mejorada para evitar duplicados
-  function showNotificationFixed(message, type = "info") {
-    // Si ya hay una notificación activa, no crear otra
-    if (isNotificationActive) {
-      return;
-    }
-    
-    isNotificationActive = true;
-
-    // Crear elemento de notificación
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 15px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      z-index: 10000;
-      opacity: 1;
-      transition: opacity 0.5s ease-in-out;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      max-width: 400px;
-      word-wrap: break-word;
-    `;
-
-    // Colores según el tipo
-    switch (type) {
-      case 'success':
-        notification.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
-        break;
-      case 'error':
-        notification.style.background = 'linear-gradient(135deg, #f44336, #da190b)';
-        break;
-      case 'warning':
-        notification.style.background = 'linear-gradient(135deg, #ff9800, #e68900)';
-        break;
-      case 'info':
-        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
-        break;
-      default:
-        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
-    }
-
-    // Añadir al DOM
-    document.body.appendChild(notification);
-
-    // Eliminar después de EXACTAMENTE 5 segundos
-    setTimeout(() => {
-      notification.style.opacity = '0';
-      setTimeout(() => {
-        if (notification.parentNode) {
-          notification.parentNode.removeChild(notification);
-        }
-        isNotificationActive = false; // Permitir nuevas notificaciones
-      }, 500);
-    }, 5000);
-  }
-
   // Versión ULTRA-SIMPLE para notificaciones secuenciales
   function showSequentialNotifications(messages) {
     // Mostrar primera notificación inmediatamente
-    showNotificationFixed(messages[0].text, messages[0].type);
+    showNotification(messages[0].text, messages[0].type);
     
     // Mostrar las siguientes con delay específico
     setTimeout(() => {
-      showNotificationFixed(messages[1].text, messages[1].type);
+      showNotification(messages[1].text, messages[1].type);
     }, 5000);
     
     setTimeout(() => {
-      showNotificationFixed(messages[2].text, messages[2].type);
+      showNotification(messages[2].text, messages[2].type);
     }, 10000);
     
     setTimeout(() => {
-      showNotificationFixed(messages[3].text, messages[3].type);
+      showNotification(messages[3].text, messages[3].type);
     }, 15000);
   }
 
@@ -163,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const mensaje = document.getElementById("mensaje").value;
 
       if (!nombre || !email || !asunto || !mensaje) {
-        showNotificationFixed(
+        showNotification(
           "❌ Error: Campos requeridos incompletos",
           "error"
         );
@@ -289,7 +168,6 @@ document.addEventListener("DOMContentLoaded", function () {
             )}`;
             
             window.open(gmailUrl, '_blank');
-            // No mostrar notificación adicional aquí para evitar duplicados
           }, 15000);
           
           // Actualizar botón después de 15 segundos

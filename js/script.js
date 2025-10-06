@@ -748,7 +748,7 @@ function initContactForm() {
         submitBtn.textContent = "¡Mensaje Enviado!";
         submitBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
 
-        showNotification("", "");
+        showNotification("Mensaje enviado con éxito. Te contactaremos pronto.", "success");
 
         createConfettiEffect(20);
 
