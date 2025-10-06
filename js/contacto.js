@@ -1,8 +1,8 @@
-// Validación y efectos del formulario de contacto
+// contacto.js - Solo funcionalidad EmailJS para el formulario de contacto
 document.addEventListener("DOMContentLoaded", function () {
   const contactoForm = document.querySelector(".contacto-form");
 
-  // Inicializar EmailJS con tu Public Key
+  // Inicializar EmailJS
   emailjs.init("KZquan0PhqC35uDYw");
 
   // Función para generar ID de sesión seguro
@@ -10,25 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const array = new Uint32Array(length);
     window.crypto.getRandomValues(array);
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
-  }
-
-  // Versión ULTRA-SIMPLE para notificaciones secuenciales
-  function showSequentialNotifications(messages) {
-    // Mostrar primera notificación inmediatamente
-    showNotification(messages[0].text, messages[0].type);
-    
-    // Mostrar las siguientes con delay específico
-    setTimeout(() => {
-      showNotification(messages[1].text, messages[1].type);
-    }, 5000);
-    
-    setTimeout(() => {
-      showNotification(messages[2].text, messages[2].type);
-    }, 10000);
-    
-    setTimeout(() => {
-      showNotification(messages[3].text, messages[3].type);
-    }, 15000);
   }
 
   if (contactoForm) {
@@ -42,42 +23,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const mensaje = document.getElementById("mensaje").value;
 
       if (!nombre || !email || !asunto || !mensaje) {
-        showNotification(
-          "❌ Error: Campos requeridos incompletos",
-          "error"
-        );
+        showNotification("❌ Error: Campos requeridos incompletos", "error");
         return;
       }
 
-      // Obtener el texto del asunto seleccionado
+      // Obtener datos del formulario
       const asuntoSelect = document.getElementById("asunto");
       const asuntoTexto = asuntoSelect.options[asuntoSelect.selectedIndex].text;
 
-      // Generar datos adicionales para el estilo programación
+      // Generar datos adicionales
       const now = new Date();
-      const timestamp = now.toISOString();
       const submissionId = 'SRK' + Date.now();
       const sessionId = "SESS_" + generateSecureSessionId();
 
-      // Determinar prioridad basada en el asunto
-      const priorityMap = {
-        'soporte': 'HIGH',
-        'reporte': 'URGENT', 
-        'sugerencia': 'MEDIUM',
-        'colaboracion': 'LOW',
-        'otros': 'LOW'
-      };
-
-      // Determinar equipo asignado
-      const teamMap = {
-        'soporte': 'TECH_SUPPORT',
-        'reporte': 'QA_TEAM',
-        'sugerencia': 'COMMUNITY',
-        'colaboracion': 'BUSINESS_DEV',
-        'otros': 'GENERAL'
-      };
-
-      // Preparar los parámetros para EmailJS
+      // Preparar parámetros para EmailJS
       const templateParams = {
         from_name: nombre,
         from_email: email,
@@ -85,14 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
         message: mensaje,
         to_email: "soporte@serakdep.com",
         submission_id: submissionId,
-        priority_level: priorityMap[asunto] || 'MEDIUM',
-        assigned_team: teamMap[asunto] || 'GENERAL',
-        queue_position: '#' + Math.floor(Math.random() * 15 + 1),
-        eta: '24-48 hours',
         date: now.toLocaleDateString('es-ES'),
-        time: now.toLocaleTimeString('es-ES'),
-        timestamp: timestamp,
-        session_id: sessionId
+        time: now.toLocaleTimeString('es-ES')
       };
 
       // Enviar con EmailJS
@@ -104,97 +57,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
       emailjs.send('service_3dlso3n', 'template_bso642c', templateParams)
         .then(function(response) {
-          console.log('✅ SUCCESS!', response.status, response.text);
+          console.log('✅ Email enviado!', response.status, response.text);
+          showNotification("✅ Mensaje enviado correctamente", "success");
           
-          // Notificaciones secuenciales en caso de éxito (4 notificaciones)
-          const successMessages = [
-            {
-              text: "✅ Mensaje procesado exitosamente",
-              type: "success"
-            },
-            {
-              text: "📨 Correo enviado al equipo de soporte",
-              type: "success"
-            },
-            {
-              text: "🎉 ID de ticket: " + submissionId,
-              type: "success"
-            },
-            {
-              text: "⏱️ Respuesta esperada en 24-48 horas",
-              type: "info"
-            }
-          ];
-          
-          // Iniciar notificaciones secuenciales
-          showSequentialNotifications(successMessages);
-          
-          // Actualizar botón después de 20 segundos (4 notificaciones × 5 segundos)
+          submitBtn.textContent = "✅ ENVIADO";
           setTimeout(() => {
-            submitBtn.textContent = "✅ ENVIADO";
-            setTimeout(() => {
-              submitBtn.textContent = originalText;
-              submitBtn.disabled = false;
-            }, 2000);
-          }, 20000);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            contactoForm.reset();
+          }, 3000);
           
-          contactoForm.reset();
         }, function(error) {
-          console.log('❌ FAILED...', error);
+          console.log('❌ Error EmailJS:', error);
+          showNotification("❌ Error al enviar el mensaje", "error");
           
-          // Notificaciones secuenciales en caso de error (3 notificaciones)
-          const errorMessages = [
-            {
-              text: "💥 Error en el sistema de envío",
-              type: "error"
-            },
-            {
-              text: "🔄 Redirigiendo a método alternativo",
-              type: "warning"
-            },
-            {
-              text: "📧 Abriendo cliente de correo alternativo",
-              type: "info"
-            }
-          ];
-          
-          // Iniciar notificaciones secuenciales
-          showSequentialNotifications(errorMessages);
-          
-          // Fallback a Gmail después de 15 segundos (3 notificaciones × 5 segundos)
+          submitBtn.textContent = "❌ ERROR";
           setTimeout(() => {
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
-              `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
-            )}`;
-            
-            window.open(gmailUrl, '_blank');
-          }, 15000);
-          
-          // Actualizar botón después de 15 segundos
-          setTimeout(() => {
-            submitBtn.textContent = "❌ ERROR";
-            setTimeout(() => {
-              submitBtn.textContent = originalText;
-              submitBtn.disabled = false;
-            }, 2000);
-          }, 15000);
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }, 3000);
         });
     });
   }
-
-  // Efectos para los elementos de contacto (mejorados)
-  const contactoItems = document.querySelectorAll(".contacto-item");
-  contactoItems.forEach((item) => {
-    item.addEventListener("mouseenter", function () {
-      this.style.transform = "translateX(10px)";
-      this.style.borderLeft = "3px solid var(--neon-cyan)";
-      this.style.background = "linear-gradient(90deg, rgba(0,255,255,0.1) 0%, transparent 100%)";
-    });
-
-    item.addEventListener("mouseleave", function () {
-      this.style.transform = "translateX(0)";
-      this.style.borderLeft = "none";
-      this.style.background = "none";
-    });
-  });
 });
