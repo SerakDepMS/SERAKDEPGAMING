@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
           setTimeout(() => {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
-          }, 2000);
+          }, 3000);
         });
     });
   }
