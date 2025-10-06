@@ -12,34 +12,67 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
-  // Función modificada para forzar 5 segundos de duración
-  function showNotificationForced(message, type = "info", duration = 5000) {
-    // Si showNotification acepta duración como tercer parámetro
-    if (typeof showNotification === 'function') {
-      showNotification(message, type, duration);
-    } else {
-      // Si no, crear una implementación alternativa
-      console.log(`[${type.toUpperCase()}] ${message}`);
-      // Aquí podrías implementar tu propio sistema de notificaciones si es necesario
+  // Función de notificación que DURA EXACTAMENTE 5 SEGUNDOS
+  function showNotificationFixed(message, type = "info") {
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      z-index: 10000;
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    `;
+
+    // Colores según el tipo
+    switch (type) {
+      case 'success':
+        notification.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+        break;
+      case 'error':
+        notification.style.background = 'linear-gradient(135deg, #f44336, #da190b)';
+        break;
+      case 'warning':
+        notification.style.background = 'linear-gradient(135deg, #ff9800, #e68900)';
+        break;
+      case 'info':
+        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
+        break;
+      default:
+        notification.style.background = 'linear-gradient(135deg, #2196F3, #0b7dda)';
     }
+
+    // Añadir al DOM
+    document.body.appendChild(notification);
+
+    // Eliminar después de EXACTAMENTE 5 segundos
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 500); // 0.5 segundos para la animación de fade out
+    }, 5000); // 5 SEGUNDOS EXACTOS
   }
 
-  // Función para mostrar notificaciones secuenciales con timing preciso
+  // Función para mostrar notificaciones secuenciales
   function showSequentialNotifications(messages) {
-    let currentIndex = 0;
-    
-    function showNext() {
-      if (currentIndex < messages.length) {
-        const message = messages[currentIndex];
-        showNotificationForced(message.text, message.type, 5000);
-        currentIndex++;
-        // Esperar EXACTAMENTE 5 segundos antes de mostrar la siguiente
-        setTimeout(showNext, 5000);
-      }
-    }
-    
-    // Mostrar la primera notificación inmediatamente
-    showNext();
+    messages.forEach((message, index) => {
+      // Cada notificación se muestra 5 segundos después de la anterior
+      setTimeout(() => {
+        showNotificationFixed(message.text, message.type);
+      }, index * 5000);
+    });
   }
 
   if (contactoForm) {
@@ -53,10 +86,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const mensaje = document.getElementById("mensaje").value;
 
       if (!nombre || !email || !asunto || !mensaje) {
-        showNotificationForced(
+        showNotificationFixed(
           "❌ Error: Campos requeridos incompletos",
-          "error",
-          5000
+          "error"
         );
         return;
       }
@@ -186,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
             )}`;
             
             window.open(gmailUrl, '_blank');
-            showNotificationForced("📬 Cliente de correo abierto. Por favor completa el envío.", "info", 5000);
+            showNotificationFixed("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
           }, totalNotificationTime);
           
           // Actualizar botón después de que terminen TODAS las notificaciones
