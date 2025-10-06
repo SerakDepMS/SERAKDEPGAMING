@@ -12,6 +12,18 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
+  // Función modificada para forzar 5 segundos de duración
+  function showNotificationForced(message, type = "info", duration = 5000) {
+    // Si showNotification acepta duración como tercer parámetro
+    if (typeof showNotification === 'function') {
+      showNotification(message, type, duration);
+    } else {
+      // Si no, crear una implementación alternativa
+      console.log(`[${type.toUpperCase()}] ${message}`);
+      // Aquí podrías implementar tu propio sistema de notificaciones si es necesario
+    }
+  }
+
   // Función para mostrar notificaciones secuenciales con timing preciso
   function showSequentialNotifications(messages) {
     let currentIndex = 0;
@@ -19,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function showNext() {
       if (currentIndex < messages.length) {
         const message = messages[currentIndex];
-        showNotification(message.text, message.type);
+        showNotificationForced(message.text, message.type, 5000);
         currentIndex++;
         // Esperar EXACTAMENTE 5 segundos antes de mostrar la siguiente
         setTimeout(showNext, 5000);
@@ -41,10 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const mensaje = document.getElementById("mensaje").value;
 
       if (!nombre || !email || !asunto || !mensaje) {
-        showNotification(
+        showNotificationForced(
           "❌ Error: Campos requeridos incompletos",
           "error",
-          5000  // Duración de 5 segundos
+          5000
         );
         return;
       }
@@ -174,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
             )}`;
             
             window.open(gmailUrl, '_blank');
-            showNotification("📬 Cliente de correo abierto. Por favor completa el envío.", "info", 5000);
+            showNotificationForced("📬 Cliente de correo abierto. Por favor completa el envío.", "info", 5000);
           }, totalNotificationTime);
           
           // Actualizar botón después de que terminen TODAS las notificaciones
