@@ -12,8 +12,29 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
-  // Función de notificación que DURA EXACTAMENTE 5 SEGUNDOS
+  // Sistema de notificaciones mejorado con cola
+  let notificationQueue = [];
+  let isShowingNotification = false;
+
   function showNotificationFixed(message, type = "info") {
+    // Agregar a la cola
+    notificationQueue.push({ message, type });
+    
+    // Si no se está mostrando ninguna notificación, mostrar la primera
+    if (!isShowingNotification) {
+      processNotificationQueue();
+    }
+  }
+
+  function processNotificationQueue() {
+    if (notificationQueue.length === 0) {
+      isShowingNotification = false;
+      return;
+    }
+
+    isShowingNotification = true;
+    const { message, type } = notificationQueue.shift();
+
     // Crear elemento de notificación
     const notification = document.createElement('div');
     notification.textContent = message;
@@ -31,6 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
       font-family: Arial, sans-serif;
       font-size: 14px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      max-width: 400px;
+      word-wrap: break-word;
     `;
 
     // Colores según el tipo
@@ -61,18 +84,28 @@ document.addEventListener("DOMContentLoaded", function () {
         if (notification.parentNode) {
           notification.parentNode.removeChild(notification);
         }
+        // Procesar siguiente notificación después de que esta desaparezca
+        setTimeout(() => {
+          processNotificationQueue();
+        }, 100); // Pequeño delay entre notificaciones
       }, 500); // 0.5 segundos para la animación de fade out
-    }, 5000); // 5 SEGUNDOS EXACTOS
+    }, 5000); // 5 SEGUNDOS EXACTOS de visibilidad
   }
 
   // Función para mostrar notificaciones secuenciales
   function showSequentialNotifications(messages) {
-    messages.forEach((message, index) => {
-      // Cada notificación se muestra 5 segundos después de la anterior
-      setTimeout(() => {
-        showNotificationFixed(message.text, message.type);
-      }, index * 5000);
+    // Limpiar cola existente
+    notificationQueue = [];
+    
+    // Agregar todas las notificaciones a la cola
+    messages.forEach(message => {
+      notificationQueue.push(message);
     });
+    
+    // Iniciar el proceso si no está activo
+    if (!isShowingNotification) {
+      processNotificationQueue();
+    }
   }
 
   if (contactoForm) {
@@ -150,8 +183,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function(response) {
           console.log('✅ SUCCESS!', response.status, response.text);
           
-          // Calcular tiempo total de notificaciones
-          const totalNotificationTime = 4 * 5000; // 4 notificaciones × 5 segundos
+          // Calcular tiempo total exacto (4 notificaciones × 5.6 segundos cada una)
+          const totalNotificationTime = 4 * 5600; // 5600ms por notificación (5000ms visible + 600ms animación)
           
           // Notificaciones secuenciales en caso de éxito
           const successMessages = [
@@ -189,8 +222,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }, function(error) {
           console.log('❌ FAILED...', error);
           
-          // Calcular tiempo total de notificaciones
-          const totalNotificationTime = 3 * 5000; // 3 notificaciones × 5 segundos
+          // Calcular tiempo total exacto (3 notificaciones × 5.6 segundos cada una)
+          const totalNotificationTime = 3 * 5600; // 5600ms por notificación
           
           // Notificaciones secuenciales en caso de error
           const errorMessages = [
