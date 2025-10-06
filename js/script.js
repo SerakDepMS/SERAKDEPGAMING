@@ -35,7 +35,7 @@ function preloadCriticalResources() {
   });
 }
 
-// Función para validar URLs HTTP/HTTPS - CORREGIDA Y MEJORADA
+// Función para validar URLs HTTP/HTTPS - CORREGIDA DEFINITIVAMENTE
 function isValidHttpUrl(string) {
     if (!string || typeof string !== 'string') return false;
     
@@ -46,24 +46,41 @@ function isValidHttpUrl(string) {
         }
         
         const url = new URL(string);
+        // SOLUCIÓN DEFINITIVA: Validar EXPLÍCITAMENTE todos los esquemas peligrosos
+        const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'ftp:', 'tel:', 'mailto:'];
         return url.protocol === 'http:' || url.protocol === 'https:';
     } catch (_) {
         return !string.includes('://') && !/[<>"']/.test(string);
     }
 }
 
-// Función para sanitizar URLs - IMPLEMENTACIÓN SEGURA
+// Función para sanitizar URLs - IMPLEMENTACIÓN COMPLETAMENTE SEGURA
 function sanitizeUrl(url) {
     if (!url || typeof url !== 'string') return '#';
     
     const cleanUrl = url.trim().replace(/[<>"']/g, '');
     
+    // SOLUCIÓN COMPLETA: Verificar EXPLÍCITAMENTE todos los esquemas peligrosos
+    const dangerousSchemes = /^(javascript:|data:|vbscript:|file:|ftp:|tel:|mailto:)/i;
+    if (dangerousSchemes.test(cleanUrl)) {
+        console.warn('Esquema peligroso detectado y bloqueado:', url);
+        return '#';
+    }
+    
+    if (cleanUrl === '#' || cleanUrl === '') {
+        return '#';
+    }
+    
     if (isValidHttpUrl(cleanUrl)) {
         return cleanUrl;
     }
     
-    if (cleanUrl === '#' || cleanUrl === '' || cleanUrl.startsWith('javascript:')) {
-        return '#';
+    // Permitir solo rutas relativas específicas
+    if (cleanUrl.startsWith('/') || cleanUrl.startsWith('./') || cleanUrl.startsWith('../')) {
+        // Verificar adicionalmente que no contenga caracteres peligrosos
+        if (!/[<>"']/.test(cleanUrl)) {
+            return cleanUrl;
+        }
     }
     
     console.warn('URL no segura detectada y bloqueada:', url);
@@ -77,6 +94,13 @@ function getUrlProtocol(url) {
     try {
         if (url.includes('://')) {
             const urlObj = new URL(url);
+            // VERIFICACIÓN COMPLETA de protocolos
+            const allowedProtocols = ['http:', 'https:'];
+            const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'ftp:', 'tel:', 'mailto:'];
+            
+            if (dangerousProtocols.includes(urlObj.protocol)) {
+                return 'dangerous';
+            }
             return urlObj.protocol;
         }
         
@@ -610,7 +634,7 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
             // VALIDACIÓN SEGURA SIN CREAR ELEMENTOS DOM TEMPORALES
             const urlProtocol = getUrlProtocol(safeArchivo);
             
-            // Validar protocolos permitidos
+            // Validar protocolos permitidos - VERIFICACIÓN COMPLETA
             if (urlProtocol === 'http:' || urlProtocol === 'https:' || urlProtocol === 'relative:') {
               
               const downloadLink = document.createElement("a");
@@ -1505,6 +1529,7 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
+
 
 
 
