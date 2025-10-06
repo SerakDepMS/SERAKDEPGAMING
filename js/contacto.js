@@ -12,20 +12,22 @@ document.addEventListener("DOMContentLoaded", function () {
     return Array.from(array, dec => ('0' + dec.toString(36)).substr(-2)).join('').toUpperCase().substr(0, length);
   }
 
-  // Función mejorada para mostrar notificaciones secuenciales
-  function showSequentialNotifications(messages, delay = 5000) {
+  // Función para mostrar notificaciones secuenciales con timing preciso
+  function showSequentialNotifications(messages) {
     let currentIndex = 0;
     
-    function showNextNotification() {
+    function showNext() {
       if (currentIndex < messages.length) {
         const message = messages[currentIndex];
         showNotification(message.text, message.type);
         currentIndex++;
-        setTimeout(showNextNotification, delay);
+        // Esperar EXACTAMENTE 5 segundos antes de mostrar la siguiente
+        setTimeout(showNext, 5000);
       }
     }
     
-    showNextNotification();
+    // Mostrar la primera notificación inmediatamente
+    showNext();
   }
 
   if (contactoForm) {
@@ -41,7 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!nombre || !email || !asunto || !mensaje) {
         showNotification(
           "❌ Error: Campos requeridos incompletos",
-          "error"
+          "error",
+          5000  // Duración de 5 segundos
         );
         return;
       }
@@ -103,6 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function(response) {
           console.log('✅ SUCCESS!', response.status, response.text);
           
+          // Calcular tiempo total de notificaciones
+          const totalNotificationTime = 4 * 5000; // 4 notificaciones × 5 segundos
+          
           // Notificaciones secuenciales en caso de éxito
           const successMessages = [
             {
@@ -123,17 +129,24 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           ];
           
-          showSequentialNotifications(successMessages, 5000);
+          // Iniciar notificaciones secuenciales
+          showSequentialNotifications(successMessages);
           
-          submitBtn.textContent = "✅ ENVIADO";
+          // Actualizar botón después de que terminen TODAS las notificaciones
           setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-          }, (successMessages.length * 5000) + 2000); // Esperar que terminen todas las notificaciones + 2 segundos extra
+            submitBtn.textContent = "✅ ENVIADO";
+            setTimeout(() => {
+              submitBtn.textContent = originalText;
+              submitBtn.disabled = false;
+            }, 2000);
+          }, totalNotificationTime);
           
           contactoForm.reset();
         }, function(error) {
           console.log('❌ FAILED...', error);
+          
+          // Calcular tiempo total de notificaciones
+          const totalNotificationTime = 3 * 5000; // 3 notificaciones × 5 segundos
           
           // Notificaciones secuenciales en caso de error
           const errorMessages = [
@@ -151,23 +164,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           ];
           
-          showSequentialNotifications(errorMessages, 5000);
+          // Iniciar notificaciones secuenciales
+          showSequentialNotifications(errorMessages);
           
-          // Fallback a Gmail después de las notificaciones
+          // Fallback a Gmail después de que terminen TODAS las notificaciones
           setTimeout(() => {
             const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
               `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
             )}`;
             
             window.open(gmailUrl, '_blank');
-            showNotification("📬 Cliente de correo abierto. Por favor completa el envío.", "info");
-          }, (errorMessages.length * 5000) + 2000); // Esperar que terminen todas las notificaciones + 2 segundos extra
+            showNotification("📬 Cliente de correo abierto. Por favor completa el envío.", "info", 5000);
+          }, totalNotificationTime);
           
-          submitBtn.textContent = "❌ ERROR";
+          // Actualizar botón después de que terminen TODAS las notificaciones
           setTimeout(() => {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-          }, (errorMessages.length * 5000) + 3000);
+            submitBtn.textContent = "❌ ERROR";
+            setTimeout(() => {
+              submitBtn.textContent = originalText;
+              submitBtn.disabled = false;
+            }, 2000);
+          }, totalNotificationTime);
         });
     });
   }
