@@ -1281,13 +1281,6 @@ function initMemeGallery() {
         title: "",
         favorite: false,
       },
-      {
-        id: 4,
-        video: "",
-        thumbnail: "",
-        title: "",
-        favorite: false,
-      },
     ];
 
     favorites = JSON.parse(localStorage.getItem("memeFavorites")) || [];
