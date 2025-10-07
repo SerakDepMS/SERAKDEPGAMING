@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initFAQToggle();
   initGameCards();
   initContactForm();
-  initContactEffects();
+  initContactEffects(); // Nueva función añadida
   initImageErrorHandling();
 
   // Resaltar enlace activo en navegación
@@ -25,24 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("memeVideo")) {
     setTimeout(initMemeGallery, 200);
   }
-
-  // Inicializar manejo de orientación
-  initOrientationHandler();
 });
 
 // Precargar recursos críticos para mejor performance
 function preloadCriticalResources() {
-  const criticalImages = [
-    // Aquí irían las rutas de imágenes críticas
-    // Ejemplo: './assets/images/hero-bg.jpg'
-  ];
-  
+  const criticalImages = [];
   criticalImages.forEach((src) => {
-    // Validar que la URL sea segura antes de precargar
-    if (isValidHttpUrl(src) || src.startsWith('./') || src.startsWith('../')) {
-      const img = new Image();
-      img.src = src;
-    }
+    const img = new Image();
+    img.src = src;
   });
 }
 
@@ -742,9 +732,7 @@ function initContactForm() {
     contactForm.classList.add("form-initialized");
 
     // Inicializar EmailJS
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init("KZquan0PhqC35uDYw");
-    }
+    emailjs.init("KZquan0PhqC35uDYw");
 
     // Función para generar ID de sesión seguro
     function generateSecureSessionId(length = 9) {
@@ -837,54 +825,85 @@ function initContactForm() {
       };
 
       // ENVÍO CON EMAILJS
-      if (typeof emailjs !== 'undefined') {
-        emailjs.send('service_3dlso3n', 'template_bso642c', templateParams)
-          .then(function(response) {
-            console.log('✅ EmailJS SUCCESS!', response.status, response.text);
-            
-            // Notificaciones secuenciales en caso de éxito
-            const successMessages = [
-              {
-                text: "✅ Mensaje procesado exitosamente",
-                type: "success"
-              },
-              {
-                text: "📨 Correo enviado al equipo de soporte",
-                type: "success"
-              },
-              {
-                text: "🎉 ID de ticket: " + submissionId,
-                type: "success"
-              },
-              {
-                text: "⏱️ Respuesta esperada en 24-48 horas",
-                type: "info"
-              }
-            ];
-            
-            // Iniciar notificaciones secuenciales
-            showSequentialNotifications(successMessages);
-            
-            // Efectos visuales de éxito
-            submitBtn.textContent = "✅ ENVIADO";
-            submitBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
-            createConfettiEffect(20);
+      emailjs.send('service_3dlso3n', 'template_bso642c', templateParams)
+        .then(function(response) {
+          console.log('✅ EmailJS SUCCESS!', response.status, response.text);
+          
+          // Notificaciones secuenciales en caso de éxito
+          const successMessages = [
+            {
+              text: "✅ Mensaje procesado exitosamente",
+              type: "success"
+            },
+            {
+              text: "📨 Correo enviado al equipo de soporte",
+              type: "success"
+            },
+            {
+              text: "🎉 ID de ticket: " + submissionId,
+              type: "success"
+            },
+            {
+              text: "⏱️ Respuesta esperada en 24-48 horas",
+              type: "info"
+            }
+          ];
+          
+          // Iniciar notificaciones secuenciales
+          showSequentialNotifications(successMessages);
+          
+          // Efectos visuales de éxito
+          submitBtn.textContent = "✅ ENVIADO";
+          submitBtn.style.background = "linear-gradient(45deg, #00ff9d, #00f3ff)";
+          createConfettiEffect(20);
 
-            // Restaurar botón después de 20 segundos
-            setTimeout(() => {
-              submitBtn.textContent = originalText;
-              submitBtn.disabled = false;
-              submitBtn.style.background = originalBackground;
-              contactForm.reset();
-            }, 20000);
+          // Restaurar botón después de 20 segundos
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            submitBtn.style.background = originalBackground;
+            contactForm.reset();
+          }, 20000);
+          
+        }, function(error) {
+          console.log('❌ EmailJS FAILED...', error);
+          
+          // Notificaciones secuenciales en caso de error
+          const errorMessages = [
+            {
+              text: "💥 Error en el sistema de envío",
+              type: "error"
+            },
+            {
+              text: "🔄 Redirigiendo a método alternativo",
+              type: "warning"
+            },
+            {
+              text: "📧 Abriendo cliente de correo alternativo",
+              type: "info"
+            }
+          ];
+          
+          // Iniciar notificaciones secuenciales
+          showSequentialNotifications(errorMessages);
+          
+          // Fallback a Gmail después de 15 segundos
+          setTimeout(() => {
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
+              `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
+            )}`;
             
-          }, function(error) {
-            console.log('❌ EmailJS FAILED...', error);
-            handleEmailError(submitBtn, originalText, originalBackground, nombre, email, asuntoTexto, mensaje);
-          });
-      } else {
-        handleEmailError(submitBtn, originalText, originalBackground, nombre, email, asuntoTexto, mensaje);
-      }
+            window.open(gmailUrl, '_blank');
+          }, 15000);
+          
+          // Actualizar botón
+          submitBtn.textContent = "❌ ERROR";
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+            submitBtn.style.background = originalBackground;
+          }, 15000);
+        });
     });
 
     const inputs = contactForm.querySelectorAll("input, textarea");
@@ -894,45 +913,6 @@ function initContactForm() {
       });
     });
   }
-}
-
-// Manejo de errores de email
-function handleEmailError(submitBtn, originalText, originalBackground, nombre, email, asuntoTexto, mensaje) {
-  // Notificaciones secuenciales en caso de error
-  const errorMessages = [
-    {
-      text: "💥 Error en el sistema de envío",
-      type: "error"
-    },
-    {
-      text: "🔄 Redirigiendo a método alternativo",
-      type: "warning"
-    },
-    {
-      text: "📧 Abriendo cliente de correo alternativo",
-      type: "info"
-    }
-  ];
-  
-  // Iniciar notificaciones secuenciales
-  showSequentialNotifications(errorMessages);
-  
-  // Fallback a Gmail después de 15 segundos
-  setTimeout(() => {
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=soporte@serakdep.com&su=${encodeURIComponent('Contacto SerakDep: ' + asuntoTexto + ' - ' + nombre)}&body=${encodeURIComponent(
-      `Nombre: ${nombre}\nEmail: ${email}\nAsunto: ${asuntoTexto}\n\nMensaje:\n${mensaje}\n\n---\nEnviado desde SerakDep Gaming (Método alternativo)`
-    )}`;
-    
-    window.open(gmailUrl, '_blank');
-  }, 15000);
-  
-  // Actualizar botón
-  submitBtn.textContent = "❌ ERROR";
-  setTimeout(() => {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-    submitBtn.style.background = originalBackground;
-  }, 15000);
 }
 
 // Validación de campo individual
@@ -1282,36 +1262,43 @@ function initMemeGallery() {
     memeDatabase = [
       {
         id: 1,
-        video: "./assets/videos/memes/edit1.mp4",
-        thumbnail: "./assets/videos/thumbnails/edit1-thumb.jpg",
+        video: "./assets/videos/memes/meme1.mp4",
+        thumbnail: "./assets/videos/thumbnails/meme1-thumb.jpg",
         title: "",
         favorite: false,
       },
       {
         id: 2,
-        video: "./assets/videos/memes/edit2.mp4",
-        thumbnail: "./assets/videos/memes/thumbnails/edit2-thumb.jpg",
+        video: "./assets/videos/memes/meme2.mp4",
+        thumbnail: "./assets/videos/memes/thumbnails/meme2-thumb.jpg",
         title: "",
         favorite: false,
       },
       {
         id: 3,
-        video: "",
-        thumbnail: "",
+        video: "./assets/videos/memes/",
+        thumbnail: "./assets/videos/memes/thumbnails/",
         title: "",
         favorite: false,
       },
       {
         id: 4,
-        video: "",
-        thumbnail: "",
+        video: "./assets/videos/memes/",
+        thumbnail: "./assets/videos/memes/thumbnails/",
         title: "",
         favorite: false,
       },
       {
         id: 5,
-        video: "",
-        thumbnail: "",
+        video: "./assets/videos/memes/",
+        thumbnail: "./assets/videos/memes/thumbnails/",
+        title: "",
+        favorite: false,
+      },
+      {
+        id: 6,
+        video: "./assets/videos/memes/",
+        thumbnail: "./assets/videos/memes/thumbnails/",
         title: "",
         favorite: false,
       },
@@ -1780,3 +1767,9 @@ function initOrientationHandler() {
   // Ejecutar al redimensionar
   window.addEventListener('resize', handleOrientationChange);
 }
+
+// Llamar en DOMContentLoaded
+document.addEventListener("DOMContentLoaded", function() {
+  initOrientationHandler();
+  // ... el resto de tu código de inicialización
+});
