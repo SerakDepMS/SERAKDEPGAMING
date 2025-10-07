@@ -1276,8 +1276,8 @@ function initMemeGallery() {
       },
       {
         id: 3,
-        video: "",
-        thumbnail: "",
+        video: "./assets/videos/memes/meme3.mp4",
+        thumbnail: "./assets/videos/thumbnails/meme3-thumb.jpg",
         title: "",
         favorite: false,
       },
