@@ -1262,9 +1262,9 @@ function initMemeGallery() {
     memeDatabase = [
       {
         id: 1,
-        video: "",
-        thumbnail: "",
-        title: "¡Esto es gaming puro! 🎮",
+        video: "./assets/videos/memes/meme1.mp4",
+        thumbnail: "./assets/videos/memes/thumbnails/meme1-thumb.jpg",
+        title: "¡Lonely lonely lonely...! 🎮",
         favorite: false,
       },
       {
