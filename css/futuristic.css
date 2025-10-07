@@ -2661,7 +2661,7 @@ textarea:focus {
     font-size: 0.75rem !important;
     line-height: 1.2 !important;
     display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
   }
