@@ -1085,16 +1085,16 @@ function cargarJuegos() {
     {
       nombre: "Nexus Runner",
       descripcion: "Corre a través de dimensiones en este juego de plataformas de alta velocidad con gráficos psicodélicos.",
-      imagen: "../assets/",
-      archivo: "../assets/",
+      imagen: "../assets/images/juegos/",
+      archivo: "../assets/downloads/juegos/",
       tamaño: "850 MB",
       tags: ["Plataformas", "Carrera", "Multidimensional"],
     },
     {
       nombre: "Cyber Samurai",
       descripcion: "Conviértete en un samurái cibernético y libera a Neo-Tokio de corporaciones corruptas.",
-      imagen: "../assets/",
-      archivo: "../assets/",
+      imagen: "../assets/images/juegos/",
+      archivo: "../assets/downloads/juegos/",
       tamaño: "1.2 GB",
       tags: ["Acción", "Hack and Slash", "Ciberpunk"],
     },
@@ -1263,42 +1263,14 @@ function initMemeGallery() {
       {
         id: 1,
         video: "./assets/videos/memes/meme1.mp4",
-        thumbnail: "./assets/videos/thumbnails/meme1-thumb.jpg",
+        thumbnail: "./assets/videos/thumbnails/meme2-thumb.jpg",
         title: "",
         favorite: false,
       },
       {
         id: 2,
         video: "./assets/videos/memes/meme2.mp4",
-        thumbnail: "./assets/videos/memes/thumbnails/meme2-thumb.jpg",
-        title: "",
-        favorite: false,
-      },
-      {
-        id: 3,
-        video: "./assets/videos/memes/",
-        thumbnail: "./assets/videos/memes/thumbnails/",
-        title: "",
-        favorite: false,
-      },
-      {
-        id: 4,
-        video: "./assets/videos/memes/",
-        thumbnail: "./assets/videos/memes/thumbnails/",
-        title: "",
-        favorite: false,
-      },
-      {
-        id: 5,
-        video: "./assets/videos/memes/",
-        thumbnail: "./assets/videos/memes/thumbnails/",
-        title: "",
-        favorite: false,
-      },
-      {
-        id: 6,
-        video: "./assets/videos/memes/",
-        thumbnail: "./assets/videos/memes/thumbnails/",
+        thumbnail: "./assets/videos/thumbnails/meme2-thumb.jpg",
         title: "",
         favorite: false,
       },
@@ -1562,12 +1534,12 @@ function shareMeme() {
 
   if (navigator.share) {
     navigator.share({
-      title: `Meme: ${meme.title}`,
-      text: "¡Mira este divertido meme de SerakDep Gaming!",
+      title: `Meme Gaming: ${meme.title}`,
+      text: "¡Mira este divertido meme gaming de SerakDep Gaming!",
       url: window.location.href + `#meme-${meme.id}`,
     }).catch((error) => console.log("Error al compartir", error));
   } else {
-    const shareText = `¡Mira este meme: "${meme.title}" - SerakDep Gaming`;
+    const shareText = `¡Mira este meme gaming: "${meme.title}" - SerakDep Gaming`;
     showNotification(shareText, "info");
   }
 }
@@ -1720,56 +1692,3 @@ if (!window.requestAnimationFrame) {
       return setTimeout(callback, 1000 / 60);
     };
 }
-
-// Detectar orientación y ajustar dinámicamente
-function handleOrientationChange() {
-  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-  const isMobile = window.innerWidth <= 768;
-  
-  if (isLandscape && isMobile) {
-    document.body.classList.add('mobile-landscape');
-    
-    // Ajustar altura del hero para evitar scroll excesivo
-    const hero = document.querySelector('.hero');
-    if (hero) {
-      hero.style.minHeight = 'calc(100vh - 70px)';
-    }
-    
-    // Ocultar elementos decorativos para mejor performance
-    const decorativeElements = document.querySelectorAll('.decorative, .particles');
-    decorativeElements.forEach(el => {
-      el.style.display = 'none';
-    });
-  } else {
-    document.body.classList.remove('mobile-landscape');
-    
-    // Restaurar estilos
-    const hero = document.querySelector('.hero');
-    if (hero) {
-      hero.style.minHeight = '';
-    }
-    
-    const decorativeElements = document.querySelectorAll('.decorative, .particles');
-    decorativeElements.forEach(el => {
-      el.style.display = '';
-    });
-  }
-}
-
-// Inicializar detección de orientación
-function initOrientationHandler() {
-  // Ejecutar al cargar
-  handleOrientationChange();
-  
-  // Ejecutar al cambiar orientación
-  window.addEventListener('orientationchange', handleOrientationChange);
-  
-  // Ejecutar al redimensionar
-  window.addEventListener('resize', handleOrientationChange);
-}
-
-// Llamar en DOMContentLoaded
-document.addEventListener("DOMContentLoaded", function() {
-  initOrientationHandler();
-  // ... el resto de tu código de inicialización
-});
