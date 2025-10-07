@@ -44,6 +44,8 @@ body {
     ),
     linear-gradient(to bottom, var(--darker-bg), var(--dark-bg));
   position: relative;
+  text-size-adjust: 100%; /* Propiedad estándar */
+  -webkit-text-size-adjust: 100%; /* Para Safari antiguo */
 }
 
 /* Efecto de partículas en el fondo */
@@ -81,8 +83,8 @@ body::before {
 /* ===== ENCABEZADO ===== */
 header {
   background: rgba(10, 10, 31, 0.85);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
   padding: 15px 0;
   position: sticky;
   top: 0;
@@ -95,15 +97,16 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100%;
 }
 
 .logo {
   font-family: "Orbitron", sans-serif;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* Tamaño responsive */
   font-weight: 900;
   color: var(--text-primary);
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   position: relative;
   padding: 5px 15px;
 }
@@ -180,6 +183,16 @@ nav ul li a.active {
 
 nav ul li a.active::before {
   width: 100%;
+}
+
+/* Scrollbars compatibles */
+.nav-links {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.nav-links::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 /* ===== SECCIONES ===== */
@@ -306,7 +319,7 @@ section {
 
 .hero-title {
   font-family: "Orbitron", sans-serif;
-  font-size: 4rem;
+  font-size: clamp(2.5rem, 6vw, 4rem); /* Tamaño responsive */
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -362,8 +375,8 @@ section {
   transition: all 0.3s ease;
   position: relative;
   border: 1px solid rgba(0, 243, 255, 0.2);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
 }
 
 .juego-card::before {
@@ -460,8 +473,8 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
 }
 
 .galeria-item::before {
@@ -505,8 +518,8 @@ section {
   transition: all 0.3s ease;
   position: relative;
   border: 1px solid rgba(0, 243, 255, 0.2);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
 }
 
 .noticia-card::before {
@@ -623,7 +636,8 @@ label {
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
   padding: 12px 15px;
   border-radius: 5px;
@@ -632,12 +646,14 @@ textarea {
   color: var(--text-primary);
   font-family: "Rajdhani", sans-serif;
   transition: all 0.3s ease;
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
+  font-size: 16px; /* Prevenir zoom en iOS */
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--neon-cyan);
   box-shadow: var(--glow-cyan);
@@ -656,8 +672,8 @@ textarea:focus {
   overflow: hidden;
   border: 1px solid rgba(0, 243, 255, 0.2);
   transition: all 0.3s ease;
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
 }
 
 .faq-item:hover {
@@ -778,8 +794,8 @@ footer::before {
   border: 1px solid rgba(0, 195, 255, 0.3);
   transition: all 0.3s ease;
   min-width: 110px;
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Soporte Safari */
 }
 
 .security-badge:hover {
@@ -911,8 +927,41 @@ footer::before {
   color: var(--text-primary);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contacto-container {
+    grid-template-columns: 1fr;
+  }
+
+  .juegos-grid,
+  .galeria-grid,
+  .noticias-container {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+  
   .footer-logo {
     font-size: 1.8rem;
   }
@@ -980,42 +1029,6 @@ footer::before {
 
   .social-links {
     gap: 10px;
-  }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .contacto-container {
-    grid-template-columns: 1fr;
-  }
-
-  .juegos-grid,
-  .galeria-grid,
-  .noticias-container {
-    grid-template-columns: 1fr;
-  }
-
-  .section-title {
-    font-size: 2rem;
   }
 }
 
@@ -1658,7 +1671,7 @@ html {
 }
 
 .newsletter-form button {
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue));
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
   border: none;
   color: white;
   padding: 15px 30px;
@@ -1765,7 +1778,7 @@ html {
 }
 
 .notificacion-warning {
-  border-left-color: var(--neon-yellow);
+  border-left-color: gold;
 }
 
 /* Responsive */
@@ -1816,20 +1829,6 @@ html {
   .newsletter-form button {
     width: 100%;
   }
-
-  .notification {
-    /* Fallback para navegadores sin soporte */
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
-  @supports (backdrop-filter: blur(10px)) or
-    (-webkit-backdrop-filter: blur(10px)) {
-    .notification {
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      background-color: transparent;
-    }
-  }
 }
 
 @media (max-width: 480px) {
@@ -1847,6 +1846,7 @@ html {
     padding: 30px 20px;
   }
 }
+
 /* Contacto mejorado */
 .contacto-stats {
   display: grid;
@@ -2135,8 +2135,8 @@ html {
   width: 100%;
   height: 100%;
   background: rgba(5, 5, 16, 0.9);
-  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2361,16 +2361,6 @@ html {
   animation: pulse 1s infinite;
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
 .meme-controls {
   display: flex;
   justify-content: center;
@@ -2543,56 +2533,24 @@ html {
 
 /* Estados de foco mejorados */
 button:focus,
-input:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: 2px solid #00f3ff;
   outline-offset: 2px;
 }
 
-/*móviles horizontales */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-  .hero { padding: 4rem 0 1rem; min-height: auto; }
-  .section { padding: 1.5rem 0; }
-  .juegos-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
-  .juego-card { padding: 0.8rem; }
-  .juego-card p { font-size: 0.8rem; line-height: 1.2; }
-  #memeVideo { max-height: 40vh; }
-}
+/* ===== CORRECCIONES PARA DISPOSITIVOS MÓVILES EN HORIZONTAL ===== */
 
-/*CSS - móviles horizontales */
 @media screen and (max-height: 600px) and (orientation: landscape) {
-  .hero { 
-    padding: 4rem 0 1rem !important; 
-    min-height: auto !important; 
-    margin-top: 60px !important;
+  /* Ajustes generales */
+  body {
+    overflow-x: hidden;
+    min-height: 100vh;
+    padding-top: 50px !important;
   }
   
-  .section { 
-    padding: 1.5rem 0 !important; 
-  }
-  
-  .juegos-grid { 
-    grid-template-columns: repeat(2, 1fr) !important; 
-    gap: 0.8rem !important; 
-  }
-  
-  .juego-card { 
-    padding: 0.8rem !important; 
-  }
-  
-  #memeVideo { 
-    max-height: 40vh !important; 
-  }
-  
-  header {
-    padding: 0.5rem 0 !important;
-    position: fixed !important;
-    background: rgba(10, 10, 30, 0.95) !important;
-  }
-}
-
-/* =====ENCABEZADO EN MÓVIL HORIZONTAL ===== */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-  /* HEADER COMPACTO Y QUE QUEPA EN PANTALLA */
+  /* Header más compacto */
   header {
     padding: 8px 0 !important;
     position: fixed !important;
@@ -2602,6 +2560,7 @@ input:focus {
     overflow: hidden !important;
     background: rgba(10, 10, 31, 0.95) !important;
     backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     z-index: 1000 !important;
     box-sizing: border-box !important;
   }
@@ -2655,6 +2614,99 @@ input:focus {
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
   }
+  
+  /* Hero section más compacta */
+  .hero {
+    padding: 4rem 0 1rem !important;
+    min-height: auto !important;
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
+  }
+  
+  .hero-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Secciones más compactas */
+  .section {
+    padding: 1.5rem 0 !important;
+  }
+  
+  .section-title {
+    font-size: 1.3rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Ajustes para tarjetas de juegos */
+  .juegos-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.8rem !important;
+  }
+  
+  .juego-card {
+    padding: 0.8rem !important;
+  }
+  
+  .juego-card h3 {
+    font-size: 0.9rem !important;
+  }
+  
+  .juego-card p {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+  
+  /* Galería de memes compacta */
+  .meme-gallery {
+    padding: 1rem 0 !important;
+  }
+  
+  #memeVideo {
+    max-height: 40vh !important;
+  }
+  
+  .meme-controls {
+    padding: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  .meme-controls .btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Footer más compacto */
+  footer {
+    padding: 1rem 0 !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Formulario de contacto */
+  .contacto-form {
+    padding: 1rem !important;
+  }
+  
+  .contacto-form input,
+  .contacto-form textarea,
+  .contacto-form select {
+    padding: 0.6rem !important;
+    font-size: 0.8rem !important;
+  }
+  
+  /* Ajustes para partículas */
+  #particles-container {
+    display: none !important; /* Mejor performance en móvil */
+  }
 }
 
 /* Para pantallas MUY pequeñas en horizontal */
@@ -2672,16 +2724,79 @@ input:focus {
     font-size: 0.65rem !important;
     padding: 3px 6px !important;
   }
+  
+  .hero {
+    padding: 2rem 0 0.5rem !important;
+    margin-top: 50px !important;
+  }
+  
+  .hero-title {
+    font-size: 1.2rem !important;
+  }
+  
+  .section {
+    padding: 1rem 0 !important;
+  }
+  
+  .juegos-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+  
+  #memeVideo {
+    max-height: 30vh !important;
+  }
 }
 
-/* Asegurar que el contenido no quede detrás del header fijo */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-  body {
-    padding-top: 50px !important;
+/* Mejoras de scroll en móvil */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  html {
+    scroll-padding-top: 70px; /* Compensa el header fijo */
   }
+  
+  .section {
+    scroll-margin-top: 70px;
+  }
+}
 
-  .hero {
-    margin-top: 0 !important;
-    padding-top: 1rem !important;
+/* Ajustes para tablets pequeñas en horizontal */
+@media screen and (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) and (max-height: 768px) {
+  .juegos-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
+  
+  .meme-gallery {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+}
+
+/* Correcciones específicas para iPhone en horizontal */
+@supports (-webkit-touch-callout: none) {
+  @media screen and (max-height: 600px) and (orientation: landscape) {
+    .hero {
+      padding-top: 4rem;
+    }
+  }
+}
+
+/* Mejoras de accesibilidad para reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimización de rendimiento para transformaciones */
+.juego-card,
+.meme-thumb,
+.btn {
+  will-change: transform;
+  transform: translateZ(0);
 }

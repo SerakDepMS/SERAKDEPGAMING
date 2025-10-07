@@ -1063,7 +1063,7 @@ function highlightActiveNav() {
     if (
       currentPage.endsWith(linkHref) ||
       (currentPage.endsWith("/") && linkHref === "index.html") ||
-      (currentPage.endsWith("/") && linkHref === "../index.html") ||
+      (currentPage.endsWith("/juegos/") && linkHref === "../index.html") ||
       (currentPage === "/" && linkHref === "index.html")
     ) {
       link.classList.add("active");
