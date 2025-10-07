@@ -1383,7 +1383,7 @@ function loadMeme(index) {
 
   if (!meme.video || meme.video === "") {
     console.warn(`El meme ${index} no tiene video válido`);
-    showNotification("Este meme no tiene video disponible", "error");
+    showNotification("Este edit no tiene video disponible", "error");
     return;
   }
 
@@ -1553,7 +1553,7 @@ function shareMeme() {
       url: window.location.href + `#meme-${meme.id}`,
     }).catch((error) => console.log("Error al compartir", error));
   } else {
-    const shareText = `¡Mira este meme gaming: "${meme.title}" - SerakDep Gaming`;
+    const shareText = `¡Mira este edit gaming: "${meme.title}" - SerakDep Gaming`;
     showNotification(shareText, "info");
   }
 }
