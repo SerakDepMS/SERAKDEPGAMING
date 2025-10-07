@@ -2548,7 +2548,7 @@ input:focus {
   outline-offset: 2px;
 }
 
-/* Solución rápida para móviles horizontales cambiar luego*/
+/*móviles horizontales */
 @media screen and (max-height: 600px) and (orientation: landscape) {
   .hero { padding: 4rem 0 1rem; min-height: auto; }
   .section { padding: 1.5rem 0; }
@@ -2558,7 +2558,7 @@ input:focus {
   #memeVideo { max-height: 40vh; }
 }
 
-/* ULTIMO EN EL ARCHIVO CSS - Correcciones móviles horizontales */
+/*CSS - móviles horizontales */
 @media screen and (max-height: 600px) and (orientation: landscape) {
   .hero { 
     padding: 4rem 0 1rem !important; 
@@ -2587,5 +2587,101 @@ input:focus {
     padding: 0.5rem 0 !important;
     position: fixed !important;
     background: rgba(10, 10, 30, 0.95) !important;
+  }
+}
+
+/* =====ENCABEZADO EN MÓVIL HORIZONTAL ===== */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  /* HEADER COMPACTO Y QUE QUEPA EN PANTALLA */
+  header {
+    padding: 8px 0 !important;
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+    background: rgba(10, 10, 31, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 1000 !important;
+    box-sizing: border-box !important;
+  }
+
+  .header-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 10px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  /* LOGO MÁS PEQUEÑO */
+  .logo {
+    font-size: 1.2rem !important;
+    letter-spacing: 1px !important;
+    padding: 3px 8px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 40% !important;
+  }
+
+  /* NAVEGACIÓN COMPACTA */
+  .nav-links {
+    display: flex !important;
+    gap: 5px !important;
+    max-width: 60% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 2px 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .nav-links a {
+    font-size: 0.7rem !important;
+    padding: 4px 8px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  .nav-links::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .nav-links {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+}
+
+/* Para pantallas MUY pequeñas en horizontal */
+@media screen and (max-height: 400px) and (orientation: landscape) {
+  header {
+    padding: 5px 0 !important;
+  }
+
+  .logo {
+    font-size: 1rem !important;
+    padding: 2px 5px !important;
+  }
+
+  .nav-links a {
+    font-size: 0.65rem !important;
+    padding: 3px 6px !important;
+  }
+}
+
+/* Asegurar que el contenido no quede detrás del header fijo */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  body {
+    padding-top: 50px !important;
+  }
+
+  .hero {
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
   }
 }
