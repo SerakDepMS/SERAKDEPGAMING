@@ -1264,14 +1264,14 @@ function initMemeGallery() {
         id: 1,
         video: "./assets/videos/memes/meme1.mp4",
         thumbnail: "./assets/videos/memes/thumbnails/meme1-thumb.jpg",
-        title: "¡Lonely lonely lonely...! 🎮",
+        title: "",
         favorite: false,
       },
       {
         id: 2,
         video: "./assets/videos/memes/meme2.mp4",
         thumbnail: "./assets/videos/memes/thumbnails/meme2-thumb.jpg",
-        title: "AMÉRICA LLEGO🔥",
+        title: "",
         favorite: false,
       },
       {
@@ -1382,7 +1382,7 @@ function initMemeGallery() {
       {
         id: 18,
         video: "./assets/videos/memes/",
-        thumbnail: "./assets/videos/memes/thumbnailsmeme2-thumb.jpg",
+        thumbnail: "./assets/videos/memes/",
         title: "",
         favorite: false,
       },
