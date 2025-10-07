@@ -1263,7 +1263,7 @@ function initMemeGallery() {
       {
         id: 1,
         video: "./assets/videos/memes/meme1.mp4",
-        thumbnail: "./assets/videos/thumbnails/meme2-thumb.jpg",
+        thumbnail: "./assets/videos/thumbnails/meme1-thumb.jpg",
         title: "",
         favorite: false,
       },
