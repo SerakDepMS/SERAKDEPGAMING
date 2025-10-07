@@ -1869,7 +1869,58 @@ if (!window.requestAnimationFrame) {
     };
 }
 
+// Detectar orientación y ajustar dinámicamente
+function handleOrientationChange() {
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isMobile = window.innerWidth <= 768;
+  
+  if (isLandscape && isMobile) {
+    document.body.classList.add('mobile-landscape');
+    
+    // Ajustar altura del hero para evitar scroll excesivo
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.style.minHeight = 'calc(100vh - 70px)';
+    }
+    
+    // Ocultar elementos decorativos para mejor performance
+    const decorativeElements = document.querySelectorAll('.decorative, .particles');
+    decorativeElements.forEach(el => {
+      el.style.display = 'none';
+    });
+  } else {
+    document.body.classList.remove('mobile-landscape');
+    
+    // Restaurar estilos
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.style.minHeight = '';
+    }
+    
+    const decorativeElements = document.querySelectorAll('.decorative, .particles');
+    decorativeElements.forEach(el => {
+      el.style.display = '';
+    });
+  }
+}
 
+// Inicializar detección de orientación
+function initOrientationHandler() {
+  // Ejecutar al cargar
+  handleOrientationChange();
+  
+  // Ejecutar al cambiar orientación
+  window.addEventListener('orientationchange', handleOrientationChange);
+  
+  // Ejecutar al redimensionar
+  window.addEventListener('resize', handleOrientationChange);
+}
+
+// Llamar en DOMContentLoaded
+document.addEventListener("DOMContentLoaded", function() {
+  initOrientationHandler();
+  // ... el resto de tu código de inicialización
+});
 
 
 

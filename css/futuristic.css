@@ -2547,3 +2547,45 @@ input:focus {
   outline: 2px solid #00f3ff;
   outline-offset: 2px;
 }
+
+/* Solución rápida para móviles horizontales cambiar luego*/
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  .hero { padding: 4rem 0 1rem; min-height: auto; }
+  .section { padding: 1.5rem 0; }
+  .juegos-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+  .juego-card { padding: 0.8rem; }
+  .juego-card p { font-size: 0.8rem; line-height: 1.2; }
+  #memeVideo { max-height: 40vh; }
+}
+
+/* ULTIMO EN EL ARCHIVO CSS - Correcciones móviles horizontales */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  .hero { 
+    padding: 4rem 0 1rem !important; 
+    min-height: auto !important; 
+    margin-top: 60px !important;
+  }
+  
+  .section { 
+    padding: 1.5rem 0 !important; 
+  }
+  
+  .juegos-grid { 
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 0.8rem !important; 
+  }
+  
+  .juego-card { 
+    padding: 0.8rem !important; 
+  }
+  
+  #memeVideo { 
+    max-height: 40vh !important; 
+  }
+  
+  header {
+    padding: 0.5rem 0 !important;
+    position: fixed !important;
+    background: rgba(10, 10, 30, 0.95) !important;
+  }
+}
