@@ -1710,12 +1710,12 @@ function shareMeme() {
 
   if (navigator.share) {
     navigator.share({
-      title: `Meme Gaming: ${meme.title}`,
-      text: "¡Mira este divertido meme gaming de SerakDep Gaming!",
+      title: `Meme: ${meme.title}`,
+      text: "¡Mira este divertido meme de SerakDep Gaming!",
       url: window.location.href + `#meme-${meme.id}`,
     }).catch((error) => console.log("Error al compartir", error));
   } else {
-    const shareText = `¡Mira este meme gaming: "${meme.title}" - SerakDep Gaming`;
+    const shareText = `¡Mira este meme: "${meme.title}" - SerakDep Gaming`;
     showNotification(shareText, "info");
   }
 }
