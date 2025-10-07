@@ -1290,7 +1290,7 @@ function initMemeGallery() {
       {
         id: 2,
         video: "./assets/videos/memes/meme2.mp4",
-        thumbnail: "./assets/videos/memes/thumbnails/meme2-thumb.jpg",
+        thumbnail: "./assets/videos/thumbnails/meme2-thumb.jpg",
         title: "",
         favorite: false,
       },
