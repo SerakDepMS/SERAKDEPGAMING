@@ -185,7 +185,7 @@ nav ul li a.active::before {
   width: 100%;
 }
 
-/* Scrollbars compatibles */
+/* Scrollbars */
 .nav-links {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
@@ -819,7 +819,7 @@ footer::before {
   letter-spacing: 0.5px;
 }
 
-/* Enlaces sociales mejorados */
+/* Enlaces sociales */
 .social-links {
   display: flex;
   justify-content: center;
@@ -871,7 +871,7 @@ footer::before {
   transform: translateY(-3px) scale(1.1);
 }
 
-/* Enlaces del footer */
+/* Enlaces de footer */
 .footer-links {
   display: flex;
   justify-content: center;
@@ -910,7 +910,7 @@ footer::before {
   width: 100%;
 }
 
-/* Parte inferior del footer */
+/* Zona inferior del footer */
 .footer-bottom {
   border-top: 1px solid rgba(0, 195, 255, 0.2);
   padding-top: 20px;
@@ -1032,12 +1032,12 @@ footer::before {
   }
 }
 
-/* Efectos de scroll suave */
+/* Efectos de scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Animaciones de entrada */
+/* Animacion de entrada */
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
@@ -1049,9 +1049,9 @@ html {
   transform: translateY(0);
 }
 
-/* ===== ESTILOS ADICIONALES PARA PÁGINAS MEJORADAS ===== */
+/* ===== ESTILOS PARA PÁGINAS ===== */
 
-/* Galería mejorada */
+/* Galería */
 .filtros-galeria {
   display: flex;
   justify-content: center;
@@ -1122,7 +1122,7 @@ html {
   border: 1px solid rgba(0, 243, 255, 0.2);
 }
 
-/* ===== NOTICIAS MEJORADAS - ESTILO FUTURISTA ===== */
+/* ===== NOTICIAS - ESTILO FUTURISTA ===== */
 
 .noticias-filtros {
   display: flex;
@@ -1281,7 +1281,7 @@ html {
   color: var(--neon-cyan);
 }
 
-/* Grid de noticias mejorado */
+/* Grid de noticias */
 .noticias-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1532,7 +1532,7 @@ html {
   transform: translateX(3px);
 }
 
-/* Paginación mejorada */
+/* Paginación */
 .noticias-paginacion {
   display: flex;
   justify-content: center;
@@ -1588,7 +1588,7 @@ html {
   gap: 8px;
 }
 
-/* Newsletter mejorado */
+/* Newsletter */
 .newsletter {
   text-align: center;
   padding: 50px 40px;
@@ -1847,7 +1847,7 @@ html {
   }
 }
 
-/* Contacto mejorado */
+/* Contacto */
 .contacto-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1954,7 +1954,7 @@ html {
   color: var(--neon-cyan);
 }
 
-/* FAQ mejorada */
+/* FAQ */
 .faq-search {
   display: flex;
   max-width: 500px;
@@ -2121,7 +2121,7 @@ html {
   display: block;
 }
 
-/* Efectos para el botón de descarga */
+/* Efectos del botón de descarga */
 .btn.downloading {
   pointer-events: none;
   opacity: 0.7;
@@ -2522,7 +2522,7 @@ html {
   border: 0;
 }
 
-/* Mejoras para noticias */
+/* noticias (mejoras)*/
 .noticia-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2531,7 +2531,7 @@ html {
   transform: translateY(-5px);
 }
 
-/* Estados de foco mejorados */
+/* Estados de foco */
 button:focus,
 input:focus,
 select:focus,
@@ -2540,7 +2540,7 @@ textarea:focus {
   outline-offset: 2px;
 }
 
-/* ===== CORRECCIONES PARA DISPOSITIVOS MÓVILES EN HORIZONTAL ===== */
+/* ===== DISPOSITIVOS MÓVILES EN HORIZONTAL ===== */
 
 @media screen and (max-height: 600px) and (orientation: landscape) {
   /* Ajustes generales */
@@ -2550,7 +2550,7 @@ textarea:focus {
     padding-top: 50px !important;
   }
   
-  /* Header más compacto */
+  /* Header compacto */
   header {
     padding: 8px 0 !important;
     position: fixed !important;
@@ -2576,7 +2576,7 @@ textarea:focus {
     overflow: hidden !important;
   }
 
-  /* LOGO MÁS PEQUEÑO */
+  /* LOGO PEQUEÑO */
   .logo {
     font-size: 1.2rem !important;
     letter-spacing: 1px !important;
@@ -2605,7 +2605,7 @@ textarea:focus {
     flex-shrink: 0 !important;
   }
 
-  /* Ocultar scrollbar pero mantener funcionalidad */
+  /* Ocultar scrollbar */
   .nav-links::-webkit-scrollbar {
     display: none !important;
   }
@@ -2615,7 +2615,7 @@ textarea:focus {
     scrollbar-width: none !important;
   }
   
-  /* Hero section más compacta */
+  /* Hero section */
   .hero {
     padding: 4rem 0 1rem !important;
     min-height: auto !important;
@@ -2633,7 +2633,7 @@ textarea:focus {
     margin-bottom: 1rem !important;
   }
   
-  /* Secciones más compactas */
+  /* Secciones compactas */
   .section {
     padding: 1.5rem 0 !important;
   }
@@ -2685,7 +2685,7 @@ textarea:focus {
     font-size: 0.8rem !important;
   }
   
-  /* Footer más compacto */
+  /* Footer compacto */
   footer {
     padding: 1rem 0 !important;
     font-size: 0.8rem !important;
@@ -2705,7 +2705,7 @@ textarea:focus {
   
   /* Ajustes para partículas */
   #particles-container {
-    display: none !important; /* Mejor performance en móvil */
+    display: none !important;
   }
 }
 
@@ -2748,10 +2748,10 @@ textarea:focus {
   }
 }
 
-/* Mejoras de scroll en móvil */
+/* scroll en móvil */
 @media screen and (max-width: 768px) and (orientation: landscape) {
   html {
-    scroll-padding-top: 70px; /* Compensa el header fijo */
+    scroll-padding-top: 70px; /* header fijo */
   }
   
   .section {
@@ -2772,7 +2772,7 @@ textarea:focus {
   }
 }
 
-/* Correcciones específicas para iPhone en horizontal */
+/* iPhone en horizontal */
 @supports (-webkit-touch-callout: none) {
   @media screen and (max-height: 600px) and (orientation: landscape) {
     .hero {
@@ -2781,7 +2781,7 @@ textarea:focus {
   }
 }
 
-/* Mejoras de accesibilidad para reducir movimiento */
+/* accesibilidad para reducir movimiento */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

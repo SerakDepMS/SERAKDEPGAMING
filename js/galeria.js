@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Efectos hover mejorados para galería
+  // Efectos hover para galería
   galeriaItems.forEach((item) => {
     item.addEventListener("mouseenter", function () {
       this.style.transform = "scale(1.05) rotate(1deg)";

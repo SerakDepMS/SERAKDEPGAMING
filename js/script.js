@@ -1,33 +1,27 @@
-// Efectos futuristas y funcionalidades gaming - VERSIÓN COMPLETAMENTE SEGURIZADA
 document.addEventListener("DOMContentLoaded", function () {
-  // Precargar recursos críticos primero
+
   preloadCriticalResources();
 
-  // Inicializar efectos
   initParticles();
   initTypewriter();
   initScrollEffects();
   initFAQToggle();
   initGameCards();
   initContactForm();
-  initContactEffects(); // Nueva función añadida
+  initContactEffects();
   initImageErrorHandling();
 
-  // Resaltar enlace activo en navegación
   highlightActiveNav();
 
-  // Cargar juegos dinámicamente si estamos en la página de juegos
   if (document.querySelector(".juegos-grid")) {
     setTimeout(cargarJuegos, 100);
   }
 
-  // Inicializar galería de memes si existe
   if (document.getElementById("memeVideo")) {
     setTimeout(initMemeGallery, 200);
   }
 });
 
-// Precargar recursos críticos para mejor performance
 function preloadCriticalResources() {
   const criticalImages = [];
   criticalImages.forEach((src) => {
@@ -36,18 +30,15 @@ function preloadCriticalResources() {
   });
 }
 
-// Función para validar URLs HTTP/HTTPS - CORREGIDA DEFINITIVAMENTE
 function isValidHttpUrl(string) {
     if (!string || typeof string !== 'string') return false;
     
     try {
-        // Si es una ruta relativa, considerar segura
         if (string.startsWith('/') || string.startsWith('./') || string.startsWith('../')) {
             return !/[<>"']/.test(string);
         }
         
         const url = new URL(string);
-        // SOLUCIÓN DEFINITIVA: Validar EXPLÍCITAMENTE todos los esquemas peligrosos
         const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'ftp:', 'tel:', 'mailto:'];
         return url.protocol === 'http:' || url.protocol === 'https:';
     } catch (_) {
@@ -55,13 +46,12 @@ function isValidHttpUrl(string) {
     }
 }
 
-// Función para sanitizar URLs - IMPLEMENTACIÓN COMPLETAMENTE SEGURA
+// Función para sanitizar URLs
 function sanitizeUrl(url) {
     if (!url || typeof url !== 'string') return '#';
     
     const cleanUrl = url.trim().replace(/[<>"']/g, '');
     
-    // SOLUCIÓN COMPLETA: Verificar EXPLÍCITAMENTE todos los esquemas peligrosos
     const dangerousSchemes = /^(javascript:|data:|vbscript:|file:|ftp:|tel:|mailto:)/i;
     if (dangerousSchemes.test(cleanUrl)) {
         console.warn('Esquema peligroso detectado y bloqueado:', url);
@@ -78,7 +68,6 @@ function sanitizeUrl(url) {
     
     // Permitir solo rutas relativas específicas
     if (cleanUrl.startsWith('/') || cleanUrl.startsWith('./') || cleanUrl.startsWith('../')) {
-        // Verificar adicionalmente que no contenga caracteres peligrosos
         if (!/[<>"']/.test(cleanUrl)) {
             return cleanUrl;
         }
@@ -88,14 +77,13 @@ function sanitizeUrl(url) {
     return '#';
 }
 
-// Función para validar protocolo SIN crear elementos DOM
+// Función para validar protocolo
 function getUrlProtocol(url) {
     if (!url || url === '#') return '';
     
     try {
         if (url.includes('://')) {
             const urlObj = new URL(url);
-            // VERIFICACIÓN COMPLETA de protocolos
             const allowedProtocols = ['http:', 'https:'];
             const dangerousProtocols = ['javascript:', 'data:', 'vbscript:', 'file:', 'ftp:', 'tel:', 'mailto:'];
             
@@ -115,7 +103,7 @@ function getUrlProtocol(url) {
     }
 }
 
-// Efecto de partículas en el fondo - OPTIMIZADO Y SEGURO
+// Efecto de partículas en el fondo
 function initParticles() {
   if (document.getElementById("particles-container")) {
     return;
@@ -186,7 +174,7 @@ function animateParticle(particle) {
   );
 }
 
-// Efecto de máquina de escribir para títulos - SEGURO
+// Efecto de máquina de escribir para títulos
 function initTypewriter() {
   const heroTitle = document.querySelector(".hero-title");
   if (heroTitle && !heroTitle.classList.contains("typed")) {
@@ -206,7 +194,7 @@ function initTypewriter() {
   }
 }
 
-// Efectos al hacer scroll - OPTIMIZADO
+// Efectos al hacer scroll
 function initScrollEffects() {
   const fadeElements = document.querySelectorAll(".fade-in");
   if (fadeElements.length === 0) return;
@@ -310,7 +298,7 @@ function playHoverSound() {
   }
 }
 
-// Efectos especiales para tarjetas de juego - OPTIMIZADO
+// Efectos especiales para tarjetas de juego
 function initGameCards() {
   const gameCards = document.querySelectorAll(".juego-card");
   if (gameCards.length === 0) return;
@@ -401,7 +389,7 @@ function createCardParticles(card) {
   }
 }
 
-// Función mejorada de descarga con confirmación - CORREGIDA
+// Función de descarga con confirmación
 function simulateDownload(card) {
   const titleElement = card.querySelector("h3");
   const downloadBtn = card.querySelector(".btn");
@@ -419,7 +407,7 @@ function simulateDownload(card) {
   });
 }
 
-// Modal de confirmación de descarga - CORREGIDA (sin innerHTML)
+// Modal de confirmación de descarga
 function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   const modal = document.createElement("div");
   modal.className = "download-modal";
@@ -553,14 +541,13 @@ function showDownloadModal(gameName, tamaño, archivo, onConfirm) {
   document.addEventListener("keydown", handleKeydown);
 }
 
-// FUNCIÓN PRINCIPAL DE DESCARGA REAL - COMPLETAMENTE SEGURIZADA
+// FUNCIÓN PRINCIPAL DE DESCARGA REAL
 function startRealDownload(card, gameName, archivo, nombreJuego) {
   const downloadBtn = card.querySelector(".btn");
   if (!downloadBtn || downloadBtn.classList.contains("downloading")) {
     return;
   }
 
-  // Validar y sanitizar inputs
   const safeGameName = (gameName || 'Juego').toString().substring(0, 100);
   const safeNombreJuego = (nombreJuego || safeGameName)
     .toString()
@@ -568,7 +555,6 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
     .trim()
     .substring(0, 50) || 'juego';
 
-  // VALIDACIÓN SEGURA PARA LA URL - SIN ELEMENTOS TEMPORALES
   let safeArchivo = "#";
   if (archivo && typeof archivo === 'string') {
     safeArchivo = sanitizeUrl(archivo);
@@ -629,13 +615,11 @@ function startRealDownload(card, gameName, archivo, nombreJuego) {
 
       setTimeout(() => {
         try {
-          // SOLUCIÓN DEFINITIVA - SIN VULNERABILIDADES
+
           if (safeArchivo && safeArchivo !== "#") {
             
-            // VALIDACIÓN SEGURA SIN CREAR ELEMENTOS DOM TEMPORALES
             const urlProtocol = getUrlProtocol(safeArchivo);
             
-            // Validar protocolos permitidos - VERIFICACIÓN COMPLETA
             if (urlProtocol === 'http:' || urlProtocol === 'https:' || urlProtocol === 'relative:') {
               
               const downloadLink = document.createElement("a");
@@ -725,7 +709,7 @@ function handleDownloadError(card, errorMessage) {
   }, 5000);
 }
 
-// Manejo del formulario de contacto CON EmailJS
+// Formulario de contacto + EmailJS
 function initContactForm() {
   const contactForm = document.querySelector(".contacto-form");
   if (contactForm && !contactForm.classList.contains("form-initialized")) {
@@ -734,7 +718,7 @@ function initContactForm() {
     // Inicializar EmailJS
     emailjs.init("KZquan0PhqC35uDYw");
 
-    // Función para generar ID de sesión seguro
+    // Función que generara ID de sesión
     function generateSecureSessionId(length = 9) {
       const array = new Uint32Array(length);
       window.crypto.getRandomValues(array);
@@ -807,7 +791,7 @@ function initContactForm() {
         'otros': 'GENERAL'
       };
 
-      // Preparar los parámetros para EmailJS
+      // Parámetros para EmailJS
       const templateParams = {
         from_name: nombre,
         from_email: email,
@@ -849,7 +833,7 @@ function initContactForm() {
             }
           ];
           
-          // Iniciar notificaciones secuenciales
+          // notificaciones secuenciales
           showSequentialNotifications(successMessages);
           
           // Efectos visuales de éxito
@@ -868,7 +852,7 @@ function initContactForm() {
         }, function(error) {
           console.log('❌ EmailJS FAILED...', error);
           
-          // Notificaciones secuenciales en caso de error
+          // Notificaciones en caso de error
           const errorMessages = [
             {
               text: "💥 Error en el sistema de envío",
@@ -952,7 +936,7 @@ function validateForm(form) {
   return isValid;
 }
 
-// Efecto de confeti para éxito - CORREGIDO
+// Efecto de confeti para éxito
 function createConfettiEffect(count) {
   const container = document.body;
 
@@ -1000,7 +984,7 @@ function createConfettiEffect(count) {
   }
 }
 
-// Mostrar notificaciones - CORREGIDA
+// Mostrar notificaciones
 function showNotification(message, type = "info") {
   const existingNotifications = document.querySelectorAll(".custom-notification");
   existingNotifications.forEach((notification) => {
@@ -1071,12 +1055,10 @@ function highlightActiveNav() {
   });
 }
 
-// CORRECCIÓN ESPECÍFICA PARA LÍNEA 539 - VERSIÓN SEGURA
 function cargarJuegos() {
   const juegosGrid = document.querySelector(".juegos-grid");
   if (!juegosGrid) return;
 
-  // LÍNEA CORREGIDA - ELIMINAR innerHTML COMPLETAMENTE
   while (juegosGrid.firstChild) {
     juegosGrid.removeChild(juegosGrid.firstChild);
   }
@@ -1166,7 +1148,7 @@ function cargarJuegos() {
   }, 100);
 }
 
-// SVG placeholder mejorado - VERSIÓN SEGURA
+// SVG placeholder
 function getPlaceholderSVG() {
   const svgString = `
     <svg width="400" height="225" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg">
@@ -1187,7 +1169,6 @@ function getPlaceholderSVG() {
   return "data:image/svg+xml;base64," + btoa(svgString);
 }
 
-// Manejo de errores de imágenes - OPTIMIZADO
 function initImageErrorHandling() {
   const images = document.querySelectorAll("img");
 
@@ -1229,7 +1210,7 @@ function preloadImage(src) {
   document.head.appendChild(link);
 }
 
-// ===== SISTEMA DE MEMES CON MÚLTIPLES VIDEOS - VERSIÓN SEGURA =====
+// ===== SISTEMA DE MEMES CON MÚLTIPLES VIDEOS =====
 
 let currentMemeIndex = 0;
 let memeDatabase = [];
@@ -1682,7 +1663,7 @@ function initContactEffects() {
   });
 }
 
-// Añadir keyframes de animación para el shake de forma segura
+
 if (!document.querySelector("#shake-animation")) {
   const style = document.createElement("style");
   style.id = "shake-animation";
@@ -1730,7 +1711,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Efectos de teclado para una experiencia más inmersiva
+// Efectos de teclado
 document.addEventListener("keydown", function (e) {
   if (e.ctrlKey && e.key === "g") {
     showNotification("¡Modo Gamer activado!", "success");
@@ -1741,7 +1722,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// Mejorar el rendimiento de las animaciones
+// rendimiento de las animaciones
 let lastScrollY = window.scrollY;
 window.addEventListener(
   "scroll",
@@ -1753,7 +1734,7 @@ window.addEventListener(
   { passive: true }
 );
 
-// Optimizar performance en navegadores antiguos
+// performance en navegadores antiguos
 if (!window.requestAnimationFrame) {
   window.requestAnimationFrame =
     window.webkitRequestAnimationFrame ||

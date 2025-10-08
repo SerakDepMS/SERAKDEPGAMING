@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Efectos adicionales para items FAQ
+  // Efectos para items FAQ
   const faqItems = document.querySelectorAll(".faq-item");
   faqItems.forEach((item) => {
     item.addEventListener("mouseenter", function () {

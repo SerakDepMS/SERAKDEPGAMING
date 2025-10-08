@@ -1,7 +1,7 @@
-// ===== SISTEMA MEJORADO DE NOTICIAS - VERSIÓN CORREGIDA Y SEGURA =====
+// ===== SISTEMA MEJORADO DE NOTICIAS =====
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Elementos del DOM - SELECCIÓN SEGURA
+  // Elementos del DOM
   const filtroBtns = document.querySelectorAll(".filtro-btn[data-categoria]");
   const noticiaCards = document.querySelectorAll(".noticia-card");
   const paginacionBtns = document.querySelectorAll(".paginacion-btn");
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Función mejorada para aplicar filtros
+  // Función aplicar filtros
   function aplicarFiltros() {
     let noticiasVisibles = 0;
     const noticiasFiltradas = [];
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return noticiasFiltradas.length;
   }
 
-  // Sistema de búsqueda mejorado
+  // Sistema de búsqueda
   function configurarBusqueda() {
     if (!searchInput) {
       console.warn("Campo de búsqueda no encontrado");
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // Paginación mejorada
+  // Paginación
   function configurarPaginacion() {
     if (paginacionBtns.length === 0) {
       console.warn("Botones de paginación no encontrados");
@@ -581,7 +581,7 @@ document.addEventListener("DOMContentLoaded", function () {
     anunciarCambio("Filtros reiniciados. Mostrando todas las noticias.");
   }
 
-  // SISTEMA DE NOTIFICACIONES MEJORADO Y SEGURO
+  // SISTEMA DE NOTIFICACIONES
   function showNotification(mensaje, tipo = "info") {
     // Eliminar notificaciones existentes
     const notificacionesExistentes = document.querySelectorAll(".notificacion");
@@ -594,7 +594,7 @@ document.addEventListener("DOMContentLoaded", function () {
     notificacion.setAttribute("role", "status");
     notificacion.setAttribute("aria-live", "polite");
     
-    // CREACIÓN SEGURA DEL CONTENIDO - SIN innerHTML
+    // CONTENIDO - SIN innerHTML
     const notificacionContent = document.createElement("div");
     notificacionContent.className = "notificacion-content";
     
@@ -663,7 +663,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Inicializar todos los sistemas
   inicializarNoticias();
 
-  // Hacer funciones disponibles globalmente para debugging
+  // Hacer funciones  globalmente para debugging
   window.noticiasApp = {
     estado: estadoNoticias,
     aplicarFiltros,
